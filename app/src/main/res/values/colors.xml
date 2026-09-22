@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="night">#0B0C0F</color>
+    <color name="night_elevated">#14161C</color>
+    <color name="gold">#C4A46A</color>
+    <color name="gold_pressed">#A8884E</color>
+    <color name="ivory">#F3EBDD</color>
+    <color name="ivory_muted">#9A9286</color>
+    <color name="line">#2A2C33</color>
+    <color name="exit">#8B2E2E</color>
+    <color name="exit_pressed">#6E2222</color>
+    <color name="ready">#7C9A6A</color>
+    <color name="pending">#C4A46A</color>
+</resources>
