@@ -5,8 +5,10 @@ import android.app.role.RoleManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.telecom.TelecomManager
 import android.view.View
 import android.widget.TextView
@@ -19,14 +21,28 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_CALL_PHONE = 100
         private const val REQUEST_DIALER_ROLE = 101
+        private const val REQUEST_NOTIFICATIONS = 102
+        private const val EXAMPLE_PAYLOAD = "{\n  \"dial\": \"*344#\"\n}"
     }
 
     private var pendingNumber: String? = null
     private var exitAfterCall = false
     private var uiReady = false
+    private val refreshHandler = Handler(Looper.getMainLooper())
+    private val refreshUi = object : Runnable {
+        override fun run() {
+            if (uiReady) {
+                refreshStatus()
+                refreshApiCard()
+            }
+            refreshHandler.postDelayed(this, 1500)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DialServerService.start(this)
+        requestNotificationPermission()
 
         val incomingNumber = extractTelNumber(intent)
         if (incomingNumber != null) {
@@ -48,18 +64,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (uiReady) refreshStatus()
+        refreshHandler.removeCallbacks(refreshUi)
+        refreshHandler.post(refreshUi)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        refreshHandler.removeCallbacks(refreshUi)
     }
 
     private fun showSetupUi() {
         if (uiReady) {
             refreshStatus()
+            refreshApiCard()
             return
         }
 
         setContentView(R.layout.activity_main)
         uiReady = true
 
+        findViewById<TextView>(R.id.apiPayload).text = EXAMPLE_PAYLOAD
         findViewById<AppCompatButton>(R.id.roleButton).setOnClickListener {
             requestDialerRole()
         }
@@ -70,6 +94,7 @@ class MainActivity : AppCompatActivity() {
             exitToPreviousApp()
         }
         refreshStatus()
+        refreshApiCard()
     }
 
     private fun extractTelNumber(intent: Intent?): String? {
@@ -94,12 +119,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val uri = Uri.parse("tel:${Uri.encode(number)}")
-        startActivity(
-            Intent(Intent.ACTION_CALL, uri).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-        )
+        Dialer.place(this, number)
         pendingNumber = null
 
         if (returnToPreviousApp) {
@@ -134,31 +154,72 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun refreshStatus() {
-        val statusText = findViewById<TextView>(R.id.statusText)
-        val statusDot = findViewById<View>(R.id.statusDot)
-        val roleButton = findViewById<AppCompatButton>(R.id.roleButton)
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= 33 &&
+            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                REQUEST_NOTIFICATIONS
+            )
+        }
+    }
 
+    private fun refreshStatus() {
+        if (!uiReady) return
+        val statusText = findViewById<TextView>(R.id.statusText)
+        val roleButton = findViewById<AppCompatButton>(R.id.roleButton)
         val isDefaultDialer = isDefaultDialer()
+
         statusText.text = if (isDefaultDialer) {
             "Ready as the default phone app"
         } else {
             "Not the default phone app yet"
         }
+        colorDot(findViewById(R.id.statusDot), if (isDefaultDialer) R.color.ready else R.color.pending)
+        roleButton.visibility = if (isDefaultDialer) View.GONE else View.VISIBLE
+    }
 
-        val dot = statusDot.background as? GradientDrawable
+    private fun refreshApiCard() {
+        if (!uiReady) return
+
+        val running = DialApiState.running
+        findViewById<TextView>(R.id.apiStatusText).text = if (running) {
+            "Listening on port ${DialApiState.PORT}"
+        } else {
+            DialApiState.lastMessage ?: "Starting local API…"
+        }
+        colorDot(findViewById(R.id.apiDot), if (running) R.color.ready else R.color.pending)
+
+        findViewById<TextView>(R.id.apiLocalUrl).text =
+            "http://127.0.0.1:${DialApiState.PORT}/dial"
+
+        val lan = NetworkAddresses.lanIpv4()
+        findViewById<TextView>(R.id.apiLanUrl).text = if (lan.isEmpty()) {
+            "Connect to Wi‑Fi to see the LAN address"
+        } else {
+            lan.joinToString("\n") { ip ->
+                "http://$ip:${DialApiState.PORT}/dial"
+            }
+        }
+
+        val lastDial = DialApiState.lastDial
+        val lastMessage = DialApiState.lastMessage
+        findViewById<TextView>(R.id.apiLastRequest).text = when {
+            lastDial != null && lastMessage != null -> "Last request: $lastDial · $lastMessage"
+            lastMessage != null -> lastMessage
+            else -> "No API requests yet"
+        }
+    }
+
+    private fun colorDot(dot: View, colorRes: Int) {
+        val background = dot.background as? GradientDrawable
             ?: GradientDrawable().apply {
                 shape = GradientDrawable.OVAL
-                statusDot.background = this
+                dot.background = this
             }
-        dot.setColor(
-            ContextCompat.getColor(
-                this,
-                if (isDefaultDialer) R.color.ready else R.color.pending
-            )
-        )
-
-        roleButton.visibility = if (isDefaultDialer) View.GONE else View.VISIBLE
+        background.setColor(ContextCompat.getColor(this, colorRes))
     }
 
     private fun isDefaultDialer(): Boolean {
