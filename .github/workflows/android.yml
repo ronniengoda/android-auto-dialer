@@ -22,8 +22,17 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Accept Android SDK licenses
+        run: |
+          # GitHub-hosted Ubuntu images already ship ANDROID_HOME and cmdline-tools.
+          # android-actions/setup-android@v3 fails because it still requests the
+          # retired "tools" package.
+          mkdir -p "$ANDROID_HOME/licenses"
+          printf '24333f8a63b6825ea9c5514f83c2829b004d1fee\n' > "$ANDROID_HOME/licenses/android-sdk-license"
+          printf '84831b9409646a918e2276e9d8b4966ff6e4b9bb\n' > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | sort | tail -n 1)"
+          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
