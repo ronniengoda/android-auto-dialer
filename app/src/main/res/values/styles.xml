@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.AutoDial" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/mint_wash</item>
+        <item name="android:statusBarColor">@color/mint_deep</item>
         <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:windowBackground">@color/mint_wash</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="colorPrimary">@color/mint</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="android:colorBackground">@color/mint_wash</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 </resources>
