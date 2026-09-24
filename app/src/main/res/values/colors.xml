@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="night">#0B0C0F</color>
-    <color name="night_elevated">#14161C</color>
-    <color name="gold">#C4A46A</color>
-    <color name="gold_pressed">#A8884E</color>
-    <color name="ivory">#F3EBDD</color>
-    <color name="ivory_muted">#9A9286</color>
-    <color name="line">#2A2C33</color>
-    <color name="exit">#8B2E2E</color>
-    <color name="exit_pressed">#6E2222</color>
-    <color name="ready">#7C9A6A</color>
-    <color name="pending">#C4A46A</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="mint">#FF2EE6B0</color>
+    <color name="mint_deep">#FF12C4A0</color>
+    <color name="mint_pressed">#FF0FA888</color>
+    <color name="mint_soft">#FFE9FFF6</color>
+    <color name="mint_wash">#FFF4FFFB</color>
+    <color name="ink">#FF12352E</color>
+    <color name="ink_muted">#FF5E857A</color>
+    <color name="line">#FFC8F3E2</color>
+    <color name="ready">#FF12C4A0</color>
+    <color name="pending">#FFE0A23A</color>
+    <color name="exit">#FF0E3D36</color>
+    <color name="exit_pressed">#FF0A2C27</color>
+    <color name="code_text">#FF0F6E5C</color>
 </resources>

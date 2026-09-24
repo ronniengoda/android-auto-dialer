@@ -2,118 +2,261 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/night"
+    android:background="@drawable/bg_screen"
     android:orientation="vertical"
-    android:paddingStart="28dp"
-    android:paddingTop="28dp"
-    android:paddingEnd="28dp"
-    android:paddingBottom="24dp">
+    android:paddingStart="22dp"
+    android:paddingTop="22dp"
+    android:paddingEnd="22dp"
+    android:paddingBottom="18dp">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:fillViewport="true"
-        android:overScrollMode="ifContentScrolls">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_app_mark" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
-
-            <FrameLayout
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_mark">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:letterSpacing="0.08"
-                    android:text="A"
-                    android:textColor="@color/gold"
-                    android:textSize="26sp"
-                    android:textStyle="bold" />
-            </FrameLayout>
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:letterSpacing="0.28"
+                android:letterSpacing="0.16"
                 android:text="AUTODIAL"
-                android:textColor="@color/ivory"
-                android:textSize="26sp"
+                android:textColor="@color/ink"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:letterSpacing="0.08"
+                android:layout_marginTop="2dp"
                 android:text="Quiet cellular calling"
-                android:textColor="@color/ivory_muted"
+                android:textColor="@color/ink_muted"
                 android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tabBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_tab_bar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_selected"
+            android:gravity="center"
+            android:text="Home"
+            android:textColor="@color/ink"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tabApi"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_idle"
+            android:gravity="center"
+            android:text="API"
+            android:textColor="@color/ink_muted"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tabSetup"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_idle"
+            android:gravity="center"
+            android:text="Setup"
+            android:textColor="@color/ink_muted"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1">
+
+        <ScrollView
+            android:id="@+id/panelHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="ifContentScrolls">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:background="@drawable/bg_card"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:paddingBottom="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.16"
-                    android:text="STATUS"
-                    android:textColor="@color/gold"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:background="@drawable/bg_card"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.12"
+                        android:text="STATUS"
+                        android:textColor="@color/mint_deep"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_tile"
+                            android:orientation="vertical"
+                            android:padding="14dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <View
+                                    android:id="@+id/statusDot"
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/bg_status_dot" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:text="Phone"
+                                    android:textColor="@color/ink_muted"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/statusText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/ink"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_tile"
+                            android:orientation="vertical"
+                            android:padding="14dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <View
+                                    android:id="@+id/homeApiDot"
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/bg_status_dot" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:text="Listener"
+                                    android:textColor="@color/ink_muted"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/homeApiStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/ink"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:id="@+id/statusDot"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:background="@drawable/bg_status_dot" />
+                    android:background="@drawable/bg_card"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
                     <TextView
-                        android:id="@+id/statusText"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/ivory"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        android:letterSpacing="0.12"
+                        android:text="HOW IT WORKS"
+                        android:textColor="@color/mint_deep"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:lineSpacingExtra="3dp"
-                    android:text="A tel: link places the call and returns you to the previous screen."
-                    android:textColor="@color/ivory_muted"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="A tel: link places the call and returns you to the previous app. The local API stays awake after reboot so companion apps can POST a number without opening this screen."
+                        android:textColor="@color/ink_muted"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/panelApi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="ifContentScrolls"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
                 android:background="@drawable/bg_card"
                 android:orientation="vertical"
                 android:padding="20dp">
@@ -121,9 +264,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.16"
+                    android:letterSpacing="0.12"
                     android:text="LOCAL API"
-                    android:textColor="@color/gold"
+                    android:textColor="@color/mint_deep"
                     android:textSize="11sp"
                     android:textStyle="bold" />
 
@@ -146,17 +289,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_weight="1"
-                        android:textColor="@color/ivory"
-                        android:textSize="16sp" />
+                        android:textColor="@color/ink"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="16dp"
                     android:letterSpacing="0.08"
                     android:text="THIS DEVICE"
-                    android:textColor="@color/ivory_muted"
+                    android:textColor="@color/ink_muted"
                     android:textSize="11sp"
                     android:textStyle="bold" />
 
@@ -165,8 +309,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_code"
                     android:fontFamily="monospace"
-                    android:textColor="@color/ivory"
+                    android:padding="12dp"
+                    android:textColor="@color/code_text"
                     android:textIsSelectable="true"
                     android:textSize="13sp" />
 
@@ -176,7 +322,7 @@
                     android:layout_marginTop="14dp"
                     android:letterSpacing="0.08"
                     android:text="ON THIS NETWORK"
-                    android:textColor="@color/ivory_muted"
+                    android:textColor="@color/ink_muted"
                     android:textSize="11sp"
                     android:textStyle="bold" />
 
@@ -185,8 +331,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_code"
                     android:fontFamily="monospace"
-                    android:textColor="@color/ivory"
+                    android:padding="12dp"
+                    android:textColor="@color/code_text"
                     android:textIsSelectable="true"
                     android:textSize="13sp" />
 
@@ -196,7 +344,7 @@
                     android:layout_marginTop="16dp"
                     android:lineSpacingExtra="3dp"
                     android:text="POST application/json to /dial. The server answers with success and places the call in the background."
-                    android:textColor="@color/ivory_muted"
+                    android:textColor="@color/ink_muted"
                     android:textSize="13sp" />
 
                 <TextView
@@ -205,7 +353,7 @@
                     android:layout_marginTop="16dp"
                     android:letterSpacing="0.08"
                     android:text="PAYLOAD"
-                    android:textColor="@color/ivory_muted"
+                    android:textColor="@color/ink_muted"
                     android:textSize="11sp"
                     android:textStyle="bold" />
 
@@ -217,7 +365,7 @@
                     android:background="@drawable/bg_code"
                     android:fontFamily="monospace"
                     android:padding="14dp"
-                    android:textColor="@color/gold"
+                    android:textColor="@color/code_text"
                     android:textIsSelectable="true"
                     android:textSize="13sp" />
 
@@ -226,50 +374,106 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textColor="@color/ivory_muted"
+                    android:textColor="@color/ink_muted"
                     android:textSize="12sp" />
             </LinearLayout>
+        </ScrollView>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/roleButton"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_button_gold"
-                android:letterSpacing="0.06"
-                android:stateListAnimator="@null"
-                android:text="Set as default phone app"
-                android:textAllCaps="false"
-                android:textColor="@color/night"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+        <ScrollView
+            android:id="@+id/panelSetup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="ifContentScrolls"
+            android:visibility="gone">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/testButton"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_button_ghost"
-                android:letterSpacing="0.06"
-                android:stateListAnimator="@null"
-                android:text="Place a test call"
-                android:textAllCaps="false"
-                android:textColor="@color/gold"
-                android:textSize="16sp" />
-        </LinearLayout>
-    </ScrollView>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.12"
+                        android:text="DEVICE ACCESS"
+                        android:textColor="@color/mint_deep"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:lineSpacingExtra="3dp"
+                        android:text="Make AutoDial the default phone app and allow it to stay awake so the listener can start after a reboot."
+                        android:textColor="@color/ink_muted"
+                        android:textSize="14sp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/roleButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_button_primary"
+                        android:letterSpacing="0.03"
+                        android:stateListAnimator="@null"
+                        android:text="Set as default phone app"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/autostartButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_button_ghost"
+                        android:letterSpacing="0.03"
+                        android:stateListAnimator="@null"
+                        android:text="Allow start on reboot"
+                        android:textAllCaps="false"
+                        android:textColor="@color/mint_deep"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/testButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_button_ghost"
+                        android:letterSpacing="0.03"
+                        android:stateListAnimator="@null"
+                        android:text="Place a test call"
+                        android:textAllCaps="false"
+                        android:textColor="@color/mint_deep"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/exitButton"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/bg_button_exit"
-        android:letterSpacing="0.18"
+        android:letterSpacing="0.16"
         android:stateListAnimator="@null"
         android:text="EXIT"
         android:textAllCaps="true"
-        android:textColor="@color/ivory"
-        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold" />
 </LinearLayout>

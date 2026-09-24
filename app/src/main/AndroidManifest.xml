@@ -7,10 +7,15 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
+        android:name=".AutoDialApp"
         android:theme="@style/Theme.AutoDial"
         android:label="AutoDial"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:allowBackup="false"
         android:supportsRtl="true">
 
@@ -39,17 +44,34 @@
             </intent-filter>
         </activity>
 
-        <!-- Minimal InCallService required for ROLE_DIALER on modern Android.
-             A production dialer should provide full in-call UI. -->
+        <receiver
+            android:name=".BootReceiver"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".DialServerService"
+            android:directBootAware="true"
             android:exported="false"
-            android:foregroundServiceType="specialUse">
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false">
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="Local HTTP API that receives dial requests from companion apps on this device or network" />
         </service>
 
+        <!-- Minimal InCallService required for ROLE_DIALER on modern Android. -->
         <service
             android:name=".AutoDialInCallService"
             android:permission="android.permission.BIND_INCALL_SERVICE"

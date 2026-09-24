@@ -20,10 +20,13 @@ class DialServerService : Service() {
         private const val NOTIFICATION_ID = 17
 
         fun start(context: Context) {
-            ContextCompat.startForegroundService(
-                context,
-                Intent(context, DialServerService::class.java)
-            )
+            try {
+                ContextCompat.startForegroundService(
+                    context,
+                    Intent(context, DialServerService::class.java)
+                )
+            } catch (_: Exception) {
+            }
         }
     }
 

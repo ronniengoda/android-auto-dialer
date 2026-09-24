@@ -5,10 +5,13 @@ import android.app.role.RoleManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
+import android.provider.Settings
 import android.telecom.TelecomManager
 import android.view.View
 import android.widget.TextView
@@ -84,8 +87,14 @@ class MainActivity : AppCompatActivity() {
         uiReady = true
 
         findViewById<TextView>(R.id.apiPayload).text = EXAMPLE_PAYLOAD
+        findViewById<TextView>(R.id.tabHome).setOnClickListener { showTab(0) }
+        findViewById<TextView>(R.id.tabApi).setOnClickListener { showTab(1) }
+        findViewById<TextView>(R.id.tabSetup).setOnClickListener { showTab(2) }
         findViewById<AppCompatButton>(R.id.roleButton).setOnClickListener {
             requestDialerRole()
+        }
+        findViewById<AppCompatButton>(R.id.autostartButton).setOnClickListener {
+            requestUnrestrictedBattery()
         }
         findViewById<AppCompatButton>(R.id.testButton).setOnClickListener {
             placeCall("254700000000", returnToPreviousApp = false)
@@ -93,8 +102,34 @@ class MainActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.exitButton).setOnClickListener {
             exitToPreviousApp()
         }
+        showTab(0)
         refreshStatus()
         refreshApiCard()
+    }
+
+    private fun showTab(index: Int) {
+        val panels = listOf(
+            findViewById<View>(R.id.panelHome),
+            findViewById<View>(R.id.panelApi),
+            findViewById<View>(R.id.panelSetup)
+        )
+        val tabs = listOf(
+            findViewById<TextView>(R.id.tabHome),
+            findViewById<TextView>(R.id.tabApi),
+            findViewById<TextView>(R.id.tabSetup)
+        )
+        panels.forEachIndexed { i, panel ->
+            panel.visibility = if (i == index) View.VISIBLE else View.GONE
+        }
+        tabs.forEachIndexed { i, tab ->
+            val selected = i == index
+            tab.setBackgroundResource(
+                if (selected) R.drawable.bg_tab_selected else R.drawable.bg_tab_idle
+            )
+            tab.setTextColor(
+                ContextCompat.getColor(this, if (selected) R.color.ink else R.color.ink_muted)
+            )
+        }
     }
 
     private fun extractTelNumber(intent: Intent?): String? {
@@ -154,6 +189,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun requestUnrestrictedBattery() {
+        if (Build.VERSION.SDK_INT < 23) return
+        val power = getSystemService(PowerManager::class.java)
+        if (power.isIgnoringBatteryOptimizations(packageName)) return
+        try {
+            startActivity(
+                Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                    data = Uri.parse("package:$packageName")
+                }
+            )
+        } catch (_: Exception) {
+            startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
+        }
+    }
+
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= 33 &&
             checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
@@ -173,9 +223,9 @@ class MainActivity : AppCompatActivity() {
         val isDefaultDialer = isDefaultDialer()
 
         statusText.text = if (isDefaultDialer) {
-            "Ready as the default phone app"
+            "Default phone app"
         } else {
-            "Not the default phone app yet"
+            "Not default yet"
         }
         colorDot(findViewById(R.id.statusDot), if (isDefaultDialer) R.color.ready else R.color.pending)
         roleButton.visibility = if (isDefaultDialer) View.GONE else View.VISIBLE
@@ -185,12 +235,20 @@ class MainActivity : AppCompatActivity() {
         if (!uiReady) return
 
         val running = DialApiState.running
+        val listenerText = if (running) {
+            "Listening on ${DialApiState.PORT}"
+        } else {
+            DialApiState.lastMessage ?: "Starting…"
+        }
+
         findViewById<TextView>(R.id.apiStatusText).text = if (running) {
             "Listening on port ${DialApiState.PORT}"
         } else {
             DialApiState.lastMessage ?: "Starting local API…"
         }
+        findViewById<TextView>(R.id.homeApiStatus).text = listenerText
         colorDot(findViewById(R.id.apiDot), if (running) R.color.ready else R.color.pending)
+        colorDot(findViewById(R.id.homeApiDot), if (running) R.color.ready else R.color.pending)
 
         findViewById<TextView>(R.id.apiLocalUrl).text =
             "http://127.0.0.1:${DialApiState.PORT}/dial"
