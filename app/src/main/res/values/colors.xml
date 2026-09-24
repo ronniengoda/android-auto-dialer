@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFFFF</color>
-    <color name="mint">#FF2EE6B0</color>
-    <color name="mint_deep">#FF12C4A0</color>
-    <color name="mint_pressed">#FF0FA888</color>
-    <color name="mint_soft">#FFE9FFF6</color>
-    <color name="mint_wash">#FFF4FFFB</color>
-    <color name="ink">#FF12352E</color>
-    <color name="ink_muted">#FF5E857A</color>
-    <color name="line">#FFC8F3E2</color>
-    <color name="ready">#FF12C4A0</color>
-    <color name="pending">#FFE0A23A</color>
-    <color name="failed">#FFC85A5A</color>
-    <color name="exit">#FF0E3D36</color>
-    <color name="exit_pressed">#FF0A2C27</color>
-    <color name="code_text">#FF0F6E5C</color>
-    <color name="pill_sim_bg">#FFE3EEFF</color>
-    <color name="pill_sim_text">#FF2457A8</color>
-    <color name="pill_attempt_bg">#FFFFF0D6</color>
-    <color name="pill_attempt_text">#FF8C5A12</color>
+    <color name="black">#FF000000</color>
+
+    <color name="ios_blue">#FF007AFF</color>
+    <color name="ios_blue_pressed">#FF0062CC</color>
+    <color name="ios_blue_soft">#1A007AFF</color>
+    <color name="ios_green">#FF34C759</color>
+    <color name="ios_green_soft">#1A34C759</color>
+    <color name="ios_orange">#FFFF9500</color>
+    <color name="ios_orange_soft">#1AFF9500</color>
+    <color name="ios_red">#FFFF3B30</color>
+    <color name="ios_red_soft">#1AFF3B30</color>
+    <color name="ios_indigo">#FF5856D6</color>
+    <color name="ios_teal">#FF30B0C7</color>
+    <color name="ios_yellow">#FFFFCC00</color>
+    <color name="ios_purple">#FFAF52DE</color>
+
+    <color name="label">#FF000000</color>
+    <color name="secondary_label">#FF8E8E93</color>
+    <color name="tertiary_label">#FFAEAEB2</color>
+    <color name="section_label">#FF6D6D72</color>
+    <color name="grouped_bg">#FFF2F2F7</color>
+    <color name="tab_bar">#FFF9F9F9</color>
+    <color name="fill">#FFE5E5EA</color>
+    <color name="fill_secondary">#7878801F</color>
+    <color name="separator">#FFC6C6C8</color>
+    <color name="code_fill">#FFF2F2F7</color>
+
+    <!-- Legacy names mapped so leftover drawables stay consistent -->
+    <color name="mint">@color/ios_blue</color>
+    <color name="mint_deep">@color/ios_blue</color>
+    <color name="mint_pressed">@color/ios_blue_pressed</color>
+    <color name="mint_soft">@color/ios_blue_soft</color>
+    <color name="mint_wash">@color/grouped_bg</color>
+    <color name="ink">@color/label</color>
+    <color name="ink_muted">@color/secondary_label</color>
+    <color name="line">@color/separator</color>
+    <color name="ready">@color/ios_green</color>
+    <color name="pending">@color/ios_orange</color>
+    <color name="failed">@color/ios_red</color>
+    <color name="exit">@color/label</color>
+    <color name="exit_pressed">#FF1C1C1E</color>
+    <color name="code_text">#FF1C1C1E</color>
+    <color name="pill_sim_bg">@color/ios_blue_soft</color>
+    <color name="pill_sim_text">@color/ios_blue</color>
+    <color name="pill_attempt_bg">@color/ios_orange_soft</color>
+    <color name="pill_attempt_text">#FF9A5B00</color>
 </resources>

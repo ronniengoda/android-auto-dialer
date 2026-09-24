@@ -1,9 +1,11 @@
 package ke.payhero.autodial
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.app.role.RoleManager
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
@@ -21,6 +23,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import androidx.appcompat.app.AppCompatActivity
@@ -56,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     private var pendingEnableSms = false
     private var selectedSim = SmsForwardConfig.SIM_ALL
     private var smsHistoryPage = 0
+    private var livePulse: ObjectAnimator? = null
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val refreshUi = object : Runnable {
         override fun run() {
@@ -115,6 +119,7 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         refreshHandler.removeCallbacks(refreshUi)
+        stopLivePulse()
     }
 
     private fun showSetupUi() {
@@ -134,13 +139,20 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.tabSms).setOnClickListener { showTab(2) }
         findViewById<View>(R.id.tabPermissions).setOnClickListener { showTab(3) }
         findViewById<View>(R.id.headerExit).setOnClickListener { exitToPreviousApp() }
-        findViewById<AppCompatButton>(R.id.exitButton).setOnClickListener { exitToPreviousApp() }
-        findViewById<AppCompatButton>(R.id.testButton).setOnClickListener {
+        findViewById<View>(R.id.exitButton).setOnClickListener { exitToPreviousApp() }
+        findViewById<View>(R.id.testButton).setOnClickListener {
             placeCall("254700000000", returnToPreviousApp = false)
         }
-        findViewById<AppCompatButton>(R.id.grantRemainingButton).setOnClickListener {
+        findViewById<View>(R.id.grantRemainingButton).setOnClickListener {
             startOnboarding(force = true)
         }
+        findViewById<View>(R.id.homeHero).setOnClickListener { showTab(1) }
+        findViewById<View>(R.id.homeStatDialer).setOnClickListener { showTab(3) }
+        findViewById<View>(R.id.homeStatSms).setOnClickListener { showTab(2) }
+        findViewById<View>(R.id.homeStatAccess).setOnClickListener { showTab(3) }
+        findViewById<View>(R.id.homeGoApi).setOnClickListener { showTab(1) }
+        findViewById<View>(R.id.homeGoSms).setOnClickListener { showTab(2) }
+        findViewById<View>(R.id.homeGoAccess).setOnClickListener { showTab(3) }
         bindSmsTab()
 
         bindHomeRows()
@@ -158,22 +170,71 @@ class MainActivity : AppCompatActivity() {
     private fun bindHomeRows() {
         bindStatusRow(
             findViewById(R.id.homePhoneRow),
-            R.drawable.ic_perm_dialer,
-            "Default phone app",
+            R.drawable.ic_perm_phone,
+            R.drawable.bg_glyph_green,
+            "Default Phone App",
             "Required for silent dialing"
         )
         bindStatusRow(
             findViewById(R.id.homeListenerRow),
             R.drawable.ic_tab_api,
-            "Local listener",
+            R.drawable.bg_glyph_indigo,
+            "Local Listener",
             "HTTP API on port ${DialApiState.PORT}"
+        )
+        bindDestination(
+            findViewById(R.id.homeGoApi),
+            R.drawable.ic_tab_api,
+            R.drawable.bg_glyph_indigo,
+            "Dial API",
+            "Endpoints, payload, and last request"
+        )
+        bindDestination(
+            findViewById(R.id.homeGoSms),
+            R.drawable.ic_perm_sms,
+            R.drawable.bg_glyph_green,
+            "Messages",
+            "Forward matching SMS to a webhook"
+        )
+        bindDestination(
+            findViewById(R.id.homeGoAccess),
+            R.drawable.ic_tab_permissions,
+            R.drawable.bg_glyph_orange,
+            "Access",
+            "Permissions and default phone app"
         )
     }
 
-    private fun bindStatusRow(row: View, icon: Int, title: String, subtitle: String) {
-        row.findViewById<ImageView>(R.id.rowIcon).setImageResource(icon)
+    private fun bindStatusRow(
+        row: View,
+        icon: Int,
+        well: Int,
+        title: String,
+        subtitle: String
+    ) {
+        row.findViewById<View>(R.id.rowIconWell).setBackgroundResource(well)
+        row.findViewById<ImageView>(R.id.rowIcon).apply {
+            setImageResource(icon)
+            setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        }
         row.findViewById<TextView>(R.id.rowTitle).text = title
         row.findViewById<TextView>(R.id.rowSubtitle).text = subtitle
+    }
+
+    private fun bindDestination(
+        row: View,
+        icon: Int,
+        well: Int,
+        title: String,
+        subtitle: String
+    ) {
+        row.findViewById<View>(R.id.destIconWell).setBackgroundResource(well)
+        row.findViewById<ImageView>(R.id.destIcon).apply {
+            setImageResource(icon)
+            setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        }
+        row.findViewById<TextView>(R.id.destTitle).text = title
+        row.findViewById<TextView>(R.id.destSubtitle).text = subtitle
     }
 
     private fun showTab(index: Int) {
@@ -195,14 +256,8 @@ class MainActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tabSmsLabel),
             findViewById<TextView>(R.id.tabPermissionsLabel)
         )
-        val lines = listOf(
-            findViewById<View>(R.id.tabHomeLine),
-            findViewById<View>(R.id.tabApiLine),
-            findViewById<View>(R.id.tabSmsLine),
-            findViewById<View>(R.id.tabPermissionsLine)
-        )
-        val active = ContextCompat.getColor(this, R.color.mint_deep)
-        val idle = ContextCompat.getColor(this, R.color.ink_muted)
+        val active = ContextCompat.getColor(this, R.color.ios_blue)
+        val idle = ContextCompat.getColor(this, R.color.secondary_label)
 
         panels.forEachIndexed { i, panel ->
             panel.visibility = if (i == index) View.VISIBLE else View.GONE
@@ -212,9 +267,6 @@ class MainActivity : AppCompatActivity() {
         }
         labels.forEachIndexed { i, label ->
             label.setTextColor(if (i == index) active else idle)
-        }
-        lines.forEachIndexed { i, line ->
-            line.visibility = if (i == index) View.VISIBLE else View.INVISIBLE
         }
     }
 
@@ -227,8 +279,8 @@ class MainActivity : AppCompatActivity() {
         askedSms = false
         showTab(3)
         AlertDialog.Builder(this)
-            .setTitle("Allow required access")
-            .setMessage("AutoDial will now ask for each permission in order: phone calls, notifications, SMS, default phone app, then start on reboot.")
+            .setTitle("Allow Access")
+            .setMessage("AutoDial will ask for each permission in order: phone calls, notifications, SMS, default phone app, then start on reboot.")
             .setPositiveButton("Continue") { _, _ -> continueOnboarding() }
             .setCancelable(false)
             .show()
@@ -352,12 +404,27 @@ class MainActivity : AppCompatActivity() {
             row.findViewById<TextView>(R.id.permSubtitle).text = item.subtitle
 
             val enabled = item.enabled()
-            val chip = row.findViewById<TextView>(R.id.permChip)
-            chip.text = if (enabled) "Enabled" else "Available"
-            chip.setBackgroundResource(if (enabled) R.drawable.bg_chip_on else R.drawable.bg_chip_off)
-            chip.setTextColor(
-                ContextCompat.getColor(this, if (enabled) R.color.mint_deep else R.color.pending)
+            val wells = listOf(
+                R.drawable.bg_glyph_green,
+                R.drawable.bg_glyph_red,
+                R.drawable.bg_glyph_blue,
+                R.drawable.bg_glyph_teal,
+                R.drawable.bg_glyph_orange
             )
+            row.findViewById<View>(R.id.permIconWell).setBackgroundResource(
+                wells.getOrElse(index) { R.drawable.bg_glyph_blue }
+            )
+            val chip = row.findViewById<TextView>(R.id.permChip)
+            chip.setBackgroundColor(Color.TRANSPARENT)
+            if (enabled) {
+                chip.text = "On"
+                chip.setTextColor(ContextCompat.getColor(this, R.color.secondary_label))
+            } else {
+                chip.text = "Allow"
+                chip.setTextColor(ContextCompat.getColor(this, R.color.ios_blue))
+            }
+            row.findViewById<View>(R.id.permChevron).visibility =
+                if (enabled) View.GONE else View.VISIBLE
             row.setOnClickListener {
                 if (!item.enabled()) item.request()
             }
@@ -367,18 +434,117 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshHome() {
         if (!uiReady) return
-        val phoneRow = findViewById<View>(R.id.homePhoneRow)
-        phoneRow.findViewById<TextView>(R.id.rowSubtitle).text = if (isDefaultDialer()) {
-            "Enabled as the default phone app"
-        } else {
-            "Available — set this as the default phone app"
+
+        findViewById<TextView>(R.id.homeGreeting).text = greeting()
+
+        val listening = DialApiState.running
+        findViewById<View>(R.id.homeLiveDot).setBackgroundResource(
+            if (listening) R.drawable.bg_live_dot else R.drawable.bg_live_dot_idle
+        )
+        val liveLabel = findViewById<TextView>(R.id.homeLiveLabel)
+        liveLabel.text = if (listening) "LIVE" else "STARTING"
+        liveLabel.setTextColor(
+            ContextCompat.getColor(this, if (listening) R.color.ios_green else R.color.ios_orange)
+        )
+        findViewById<TextView>(R.id.homeHeroTitle).text =
+            if (listening) "Listening" else "Waking Up"
+        findViewById<TextView>(R.id.homeHeroSubtitle).text =
+            if (listening) {
+                "Local API on port ${DialApiState.PORT}"
+            } else {
+                DialApiState.lastMessage ?: "Starting the local listener…"
+            }
+
+        val lastDial = DialApiState.lastDial
+        val lastMessage = DialApiState.lastMessage
+        findViewById<TextView>(R.id.homeLastActivity).text = when {
+            lastDial != null && lastMessage != null -> "Last request  $lastDial · $lastMessage"
+            lastMessage != null -> lastMessage
+            else -> "Waiting for the first companion request"
         }
+        updateLivePulse(listening)
+
+        val phoneReady = isDefaultDialer()
+        findViewById<View>(R.id.homePhoneRow).findViewById<TextView>(R.id.rowSubtitle).text =
+            if (phoneReady) {
+                "On — set as the default phone app"
+            } else {
+                "Set this as the default phone app"
+            }
+        findViewById<TextView>(R.id.homeStatDialerValue).text = if (phoneReady) "On" else "Set Up"
+        findViewById<TextView>(R.id.homeStatDialerHint).text =
+            if (phoneReady) "Default app" else "Required"
 
         val listenerRow = findViewById<View>(R.id.homeListenerRow)
-        listenerRow.findViewById<TextView>(R.id.rowSubtitle).text = if (DialApiState.running) {
-            "Enabled — listening on port ${DialApiState.PORT}"
+        listenerRow.findViewById<TextView>(R.id.rowSubtitle).text = if (listening) {
+            "On — listening on port ${DialApiState.PORT}"
         } else {
             DialApiState.lastMessage ?: "Starting local listener…"
+        }
+
+        val store = SmsHistoryStore.get(this)
+        val smsTotal = store.count()
+        val smsFailed = store.countWhere(SmsHistoryStore.STATUS_FAILED) +
+            store.countWhere(SmsHistoryStore.STATUS_PENDING)
+        val smsOn = SmsForwardConfig(this).enabled
+        findViewById<TextView>(R.id.homeStatSmsValue).text = when {
+            !smsOn -> "Off"
+            smsFailed > 0 -> "$smsFailed"
+            else -> "$smsTotal"
+        }
+        findViewById<TextView>(R.id.homeStatSmsHint).text = when {
+            !smsOn -> "Forwarder"
+            smsFailed > 0 -> if (smsFailed == 1) "Needs retry" else "Need retry"
+            smsTotal == 0 -> "No messages"
+            else -> if (smsTotal == 1) "Forwarded" else "Forwarded"
+        }
+
+        val items = permissionItems()
+        val accessOn = items.count { it.enabled() }
+        val accessTotal = items.size
+        findViewById<TextView>(R.id.homeStatAccessValue).text = "$accessOn/$accessTotal"
+        findViewById<TextView>(R.id.homeStatAccessHint).text =
+            if (accessOn == accessTotal) "All set" else "Remaining"
+
+        val apiValue = findViewById<View>(R.id.homeGoApi).findViewById<TextView>(R.id.destValue)
+        apiValue.text = if (listening) "On" else "…"
+        val smsValue = findViewById<View>(R.id.homeGoSms).findViewById<TextView>(R.id.destValue)
+        smsValue.text = if (smsOn) "On" else "Off"
+        val accessValue = findViewById<View>(R.id.homeGoAccess).findViewById<TextView>(R.id.destValue)
+        accessValue.text = "$accessOn/$accessTotal"
+    }
+
+    private fun greeting(): String {
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        return when {
+            hour < 12 -> "Good morning"
+            hour < 17 -> "Good afternoon"
+            else -> "Good evening"
+        }
+    }
+
+    private fun updateLivePulse(active: Boolean) {
+        val dot = findViewById<View>(R.id.homeLiveDot)
+        if (active) {
+            if (livePulse == null) {
+                livePulse = ObjectAnimator.ofFloat(dot, View.ALPHA, 1f, 0.28f).apply {
+                    duration = 900
+                    repeatMode = ObjectAnimator.REVERSE
+                    repeatCount = ObjectAnimator.INFINITE
+                    start()
+                }
+            }
+        } else {
+            stopLivePulse()
+            dot.alpha = 1f
+        }
+    }
+
+    private fun stopLivePulse() {
+        livePulse?.cancel()
+        livePulse = null
+        if (uiReady) {
+            findViewById<View>(R.id.homeLiveDot).alpha = 1f
         }
     }
 
@@ -600,7 +766,7 @@ class MainActivity : AppCompatActivity() {
         config.enabled = findViewById<SwitchCompat>(R.id.smsEnabledSwitch).isChecked
         config.autoRetryOnline = findViewById<SwitchCompat>(R.id.smsAutoRetrySwitch).isChecked
         updateSmsListenerHint()
-        Toast.makeText(this, "SMS forwarder saved", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
     }
 
     private fun updateSimChips() {
@@ -610,11 +776,8 @@ class MainActivity : AppCompatActivity() {
             SmsForwardConfig.SIM_2 to findViewById<TextView>(R.id.smsSim2)
         )
         chips.forEach { (value, view) ->
-            val selected = value == selectedSim
-            view.isSelected = selected
-            view.setTextColor(
-                ContextCompat.getColor(this, if (selected) R.color.white else R.color.ink)
-            )
+            view.isSelected = value == selectedSim
+            view.setTextColor(ContextCompat.getColor(this, R.color.label))
         }
     }
 
@@ -623,7 +786,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.smsListenerHint).text = if (enabled) {
             "Listening for matching incoming SMS"
         } else {
-            "Disabled"
+            "Off"
         }
     }
 
@@ -684,17 +847,17 @@ class MainActivity : AppCompatActivity() {
                 SmsHistoryStore.STATUS_SUCCESS -> {
                     chip.text = "Sent"
                     chip.setBackgroundResource(R.drawable.bg_chip_on)
-                    chip.setTextColor(ContextCompat.getColor(this, R.color.mint_deep))
+                    chip.setTextColor(ContextCompat.getColor(this, R.color.ios_green))
                 }
                 SmsHistoryStore.STATUS_PENDING -> {
                     chip.text = "Pending"
                     chip.setBackgroundResource(R.drawable.bg_chip_off)
-                    chip.setTextColor(ContextCompat.getColor(this, R.color.pending))
+                    chip.setTextColor(ContextCompat.getColor(this, R.color.ios_orange))
                 }
                 else -> {
                     chip.text = "Failed"
                     chip.setBackgroundResource(R.drawable.bg_chip_fail)
-                    chip.setTextColor(ContextCompat.getColor(this, R.color.failed))
+                    chip.setTextColor(ContextCompat.getColor(this, R.color.ios_red))
                 }
             }
 

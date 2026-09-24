@@ -3,38 +3,55 @@
     android:id="@+id/panelSms"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none"
     android:visibility="gone">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="28dp">
+
+        <TextView
+            style="@style/Text.LargeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Messages" />
+
+        <TextView
+            style="@style/Text.Subhead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="20dp"
+            android:text="Forward matching SMS to your webhook." />
+
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LISTENER" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="18dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="0.08"
-                android:text="SMS FORWARDER"
-                android:textColor="@color/mint_deep"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+            android:background="@drawable/bg_grouped"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:minHeight="60dp"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -43,20 +60,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/Text.Headline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Listener"
-                        android:textColor="@color/ink"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:text="Forward incoming SMS" />
 
                     <TextView
                         android:id="@+id/smsListenerHint"
+                        style="@style/Text.Footnote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Disabled"
-                        android:textColor="@color/ink_muted"
-                        android:textSize="13sp" />
+                        android:layout_marginTop="2dp"
+                        android:text="Off" />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.SwitchCompat
@@ -65,12 +80,20 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/separator" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:minHeight="60dp"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -79,19 +102,17 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/Text.Headline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Auto-forward when online"
-                        android:textColor="@color/ink"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:text="Retry when online" />
 
                     <TextView
+                        style="@style/Text.Footnote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Retry failed messages after the network returns"
-                        android:textColor="@color/ink_muted"
-                        android:textSize="13sp" />
+                        android:layout_marginTop="2dp"
+                        android:text="Send failed messages after the network returns" />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.SwitchCompat
@@ -101,32 +122,25 @@
             </LinearLayout>
         </LinearLayout>
 
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="FILTER" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_card"
-            android:elevation="2dp"
+            android:background="@drawable/bg_grouped"
             android:orientation="vertical"
-            android:padding="18dp">
+            android:padding="16dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="0.08"
-                android:text="FILTER"
-                android:textColor="@color/mint_deep"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
+                style="@style/Text.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Sender ID / name"
-                android:textColor="@color/ink_muted"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:text="Sender ID" />
 
             <EditText
                 android:id="@+id/smsSenders"
@@ -136,98 +150,92 @@
                 android:background="@drawable/bg_input"
                 android:hint="airtelmoney, M-PESA"
                 android:inputType="text"
-                android:minHeight="48dp"
-                android:padding="12dp"
-                android:textColor="@color/ink"
-                android:textColorHint="@color/ink_muted"
-                android:textSize="14sp" />
+                android:minHeight="44dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/label"
+                android:textColorHint="@color/tertiary_label"
+                android:textSize="17sp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Comma-separated and case-sensitive. airtelmoney will not match AirtelMoney. Use * to accept every sender."
-                android:textColor="@color/ink_muted"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="SIM"
-                android:textColor="@color/ink_muted"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
+                style="@style/Text.Footnote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:text="Comma-separated and case-sensitive. Use * to accept every sender." />
+
+            <TextView
+                style="@style/Text.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="SIM" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_segment"
+                android:orientation="horizontal"
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/smsSimAll"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_sim_chip"
                     android:gravity="center"
                     android:text="All"
-                    android:textColor="@color/ink"
+                    android:textColor="@color/label"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/smsSim1"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_sim_chip"
                     android:gravity="center"
                     android:text="SIM 1"
-                    android:textColor="@color/ink"
+                    android:textColor="@color/label"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/smsSim2"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_sim_chip"
                     android:gravity="center"
                     android:text="SIM 2"
-                    android:textColor="@color/ink"
+                    android:textColor="@color/label"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="WEBHOOK" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_card"
-            android:elevation="2dp"
+            android:background="@drawable/bg_grouped"
             android:orientation="vertical"
-            android:padding="18dp">
+            android:padding="16dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="0.08"
-                android:text="WEBHOOK"
-                android:textColor="@color/mint_deep"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
+                style="@style/Text.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="POST URL"
-                android:textColor="@color/ink_muted"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:text="POST URL" />
 
             <EditText
                 android:id="@+id/smsWebhookUrl"
@@ -237,20 +245,19 @@
                 android:background="@drawable/bg_input"
                 android:hint="https://example.com/sms"
                 android:inputType="textUri"
-                android:minHeight="48dp"
-                android:padding="12dp"
-                android:textColor="@color/ink"
-                android:textColorHint="@color/ink_muted"
-                android:textSize="14sp" />
+                android:minHeight="44dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/label"
+                android:textColorHint="@color/tertiary_label"
+                android:textSize="17sp" />
 
             <TextView
+                style="@style/Text.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="Additional headers"
-                android:textColor="@color/ink_muted"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="16dp"
+                android:text="Additional headers" />
 
             <LinearLayout
                 android:id="@+id/smsHeaderList"
@@ -260,66 +267,59 @@
 
             <TextView
                 android:id="@+id/smsAddHeader"
+                style="@style/Text.Link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
-                android:text="+ Add header"
-                android:textColor="@color/mint_deep"
-                android:textStyle="bold" />
+                android:layout_marginTop="4dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Add Header" />
+        </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/smsSaveButton"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_button_primary"
-                android:stateListAnimator="@null"
-                android:text="Save configuration"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/smsSaveButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button_primary"
+            android:stateListAnimator="@null"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="7dp">
+
+            <TextView
+                style="@style/Text.Section"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="0dp"
+                android:text="HISTORY" />
+
+            <TextView
+                android:id="@+id/smsRetryFailed"
+                style="@style/Text.Link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dp"
+                android:text="Retry Failed"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_card"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:paddingTop="18dp"
-            android:paddingBottom="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:letterSpacing="0.08"
-                    android:text="HISTORY"
-                    android:textColor="@color/mint_deep"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/smsRetryFailed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Retry failed"
-                    android:textColor="@color/mint_deep"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            android:background="@drawable/bg_grouped"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/smsHistoryList"
@@ -329,12 +329,11 @@
 
             <TextView
                 android:id="@+id/smsHistoryEmpty"
+                style="@style/Text.Footnote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="18dp"
-                android:text="No forwarded messages yet"
-                android:textColor="@color/ink_muted"
-                android:textSize="13sp" />
+                android:text="No forwarded messages yet" />
 
             <LinearLayout
                 android:id="@+id/smsHistoryPager"
@@ -342,43 +341,44 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="18dp"
-                android:paddingBottom="14dp"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp"
                 android:visibility="gone">
 
                 <TextView
                     android:id="@+id/smsHistoryPrev"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="36dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_button_ghost"
                     android:gravity="center"
                     android:text="Previous"
-                    android:textColor="@color/mint_deep"
+                    android:textColor="@color/ios_blue"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/smsHistoryPage"
+                    style="@style/Text.Footnote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="14dp"
                     android:paddingEnd="14dp"
                     android:text="1 / 1"
-                    android:textColor="@color/ink"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/label" />
 
                 <TextView
                     android:id="@+id/smsHistoryNext"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="36dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_button_ghost"
                     android:gravity="center"
                     android:text="Next"
-                    android:textColor="@color/mint_deep"
+                    android:textColor="@color/ios_blue"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

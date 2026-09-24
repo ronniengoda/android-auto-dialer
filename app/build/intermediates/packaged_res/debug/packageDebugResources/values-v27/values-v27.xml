@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AutoDial" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/grouped_bg</item>
+        <item name="android:navigationBarColor">@color/tab_bar</item>
+        <item name="android:windowBackground">@color/grouped_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:colorBackground">@color/grouped_bg</item>
+        <item name="colorPrimary">@color/ios_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/ios_green</item>
+        <item name="colorControlActivated">@color/ios_green</item>
+        <item name="android:textColorPrimary">@color/label</item>
+        <item name="android:textColorSecondary">@color/secondary_label</item>
+        <item name="switchStyle">@style/Widget.AutoDial.Switch</item>
+        <item name="alertDialogTheme">@style/Theme.AutoDial.Dialog</item>
+    </style>
+</resources>

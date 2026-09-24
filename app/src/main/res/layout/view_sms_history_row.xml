@@ -16,40 +16,37 @@
 
         <TextView
             android:id="@+id/smsFrom"
+            style="@style/Text.Headline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/ink"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/smsStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
+            android:paddingStart="9dp"
             android:paddingTop="3dp"
-            android:paddingEnd="10dp"
+            android:paddingEnd="9dp"
             android:paddingBottom="3dp"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/smsBody"
+        style="@style/Text.Footnote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textColor="@color/ink_muted"
-        android:textSize="13sp" />
+        android:textColor="@color/label" />
 
     <TextView
         android:id="@+id/smsWhen"
+        style="@style/Text.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/ink"
-        android:textSize="12sp" />
+        android:layout_marginTop="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,13 +60,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_pill_sim"
-            android:paddingStart="10dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="4dp"
+            android:paddingStart="9dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="9dp"
+            android:paddingBottom="3dp"
             android:textColor="@color/pill_sim_text"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/smsAttempts"
@@ -77,13 +73,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:background="@drawable/bg_pill_attempt"
-            android:paddingStart="10dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="4dp"
+            android:paddingStart="9dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="9dp"
+            android:paddingBottom="3dp"
             android:textColor="@color/pill_attempt_text"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
 
         <View
             android:layout_width="0dp"
@@ -92,22 +87,21 @@
 
         <TextView
             android:id="@+id/smsRetry"
+            style="@style/Text.Link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="6dp"
+            android:padding="4dp"
             android:text="Retry"
-            android:textColor="@color/mint_deep"
-            android:textSize="13sp"
-            android:textStyle="bold"
+            android:textSize="15sp"
             android:visibility="gone" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/smsError"
+        style="@style/Text.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textColor="@color/failed"
-        android:textSize="12sp"
+        android:textColor="@color/ios_red"
         android:visibility="gone" />
 </LinearLayout>

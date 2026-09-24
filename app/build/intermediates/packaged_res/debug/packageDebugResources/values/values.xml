@@ -1,32 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="code_text">#FF0F6E5C</color>
-    <color name="exit">#FF0E3D36</color>
-    <color name="exit_pressed">#FF0A2C27</color>
-    <color name="failed">#FFC85A5A</color>
-    <color name="ink">#FF12352E</color>
-    <color name="ink_muted">#FF5E857A</color>
-    <color name="line">#FFC8F3E2</color>
-    <color name="mint">#FF2EE6B0</color>
-    <color name="mint_deep">#FF12C4A0</color>
-    <color name="mint_pressed">#FF0FA888</color>
-    <color name="mint_soft">#FFE9FFF6</color>
-    <color name="mint_wash">#FFF4FFFB</color>
-    <color name="pending">#FFE0A23A</color>
-    <color name="pill_attempt_bg">#FFFFF0D6</color>
-    <color name="pill_attempt_text">#FF8C5A12</color>
-    <color name="pill_sim_bg">#FFE3EEFF</color>
-    <color name="pill_sim_text">#FF2457A8</color>
-    <color name="ready">#FF12C4A0</color>
+    <color name="black">#FF000000</color>
+    <color name="code_fill">#FFF2F2F7</color>
+    <color name="code_text">#FF1C1C1E</color>
+    <color name="exit">@color/label</color>
+    <color name="exit_pressed">#FF1C1C1E</color>
+    <color name="failed">@color/ios_red</color>
+    <color name="fill">#FFE5E5EA</color>
+    <color name="fill_secondary">#7878801F</color>
+    <color name="grouped_bg">#FFF2F2F7</color>
+    <color name="ink">@color/label</color>
+    <color name="ink_muted">@color/secondary_label</color>
+    <color name="ios_blue">#FF007AFF</color>
+    <color name="ios_blue_pressed">#FF0062CC</color>
+    <color name="ios_blue_soft">#1A007AFF</color>
+    <color name="ios_green">#FF34C759</color>
+    <color name="ios_green_soft">#1A34C759</color>
+    <color name="ios_indigo">#FF5856D6</color>
+    <color name="ios_orange">#FFFF9500</color>
+    <color name="ios_orange_soft">#1AFF9500</color>
+    <color name="ios_purple">#FFAF52DE</color>
+    <color name="ios_red">#FFFF3B30</color>
+    <color name="ios_red_soft">#1AFF3B30</color>
+    <color name="ios_teal">#FF30B0C7</color>
+    <color name="ios_yellow">#FFFFCC00</color>
+    <color name="label">#FF000000</color>
+    <color name="line">@color/separator</color>
+    <color name="mint">@color/ios_blue</color>
+    <color name="mint_deep">@color/ios_blue</color>
+    <color name="mint_pressed">@color/ios_blue_pressed</color>
+    <color name="mint_soft">@color/ios_blue_soft</color>
+    <color name="mint_wash">@color/grouped_bg</color>
+    <color name="pending">@color/ios_orange</color>
+    <color name="pill_attempt_bg">@color/ios_orange_soft</color>
+    <color name="pill_attempt_text">#FF9A5B00</color>
+    <color name="pill_sim_bg">@color/ios_blue_soft</color>
+    <color name="pill_sim_text">@color/ios_blue</color>
+    <color name="ready">@color/ios_green</color>
+    <color name="secondary_label">#FF8E8E93</color>
+    <color name="section_label">#FF6D6D72</color>
+    <color name="separator">#FFC6C6C8</color>
+    <color name="tab_bar">#FFF9F9F9</color>
+    <color name="tertiary_label">#FFAEAEB2</color>
     <color name="white">#FFFFFFFF</color>
-    <style name="Theme.AutoDial" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/mint_deep</item>
-        <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:windowLightStatusBar">false</item>
+    <style name="Text"/>
+    <style name="Text.Body">
+        <item name="android:textColor">@color/label</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="colorPrimary">@color/mint</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.Caption">
+        <item name="android:textColor">@color/secondary_label</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.Footnote">
+        <item name="android:textColor">@color/secondary_label</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+    </style>
+    <style name="Text.Headline">
+        <item name="android:textColor">@color/label</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.LargeTitle">
+        <item name="android:textColor">@color/label</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.Link">
+        <item name="android:textColor">@color/ios_blue</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.Section">
+        <item name="android:textColor">@color/section_label</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingBottom">7dp</item>
+    </style>
+    <style name="Text.Subhead">
+        <item name="android:textColor">@color/secondary_label</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.Title">
+        <item name="android:textColor">@color/label</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Theme.AutoDial" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/grouped_bg</item>
+        <item name="android:navigationBarColor">@color/tab_bar</item>
+        <item name="android:windowBackground">@color/grouped_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:colorBackground">@color/grouped_bg</item>
+        <item name="colorPrimary">@color/ios_blue</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="android:colorBackground">@color/white</item>
+        <item name="colorSecondary">@color/ios_green</item>
+        <item name="colorControlActivated">@color/ios_green</item>
+        <item name="android:textColorPrimary">@color/label</item>
+        <item name="android:textColorSecondary">@color/secondary_label</item>
+        <item name="switchStyle">@style/Widget.AutoDial.Switch</item>
+        <item name="alertDialogTheme">@style/Theme.AutoDial.Dialog</item>
+    </style>
+    <style name="Theme.AutoDial.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorPrimary">@color/ios_blue</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.AutoDial.DialogButton</item>
+        <item name="android:background">@color/white</item>
+    </style>
+    <style name="Widget.AutoDial.DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/ios_blue</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+    <style name="Widget.AutoDial.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumbTint">@color/switch_thumb</item>
+        <item name="android:trackTint">@color/switch_track</item>
     </style>
 </resources>

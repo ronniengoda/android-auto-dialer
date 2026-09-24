@@ -91,6 +91,15 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
         }
     }
 
+    fun countWhere(status: String): Int {
+        readableDatabase.rawQuery(
+            "SELECT COUNT(*) FROM sms_history WHERE status=?",
+            arrayOf(status)
+        ).use { cursor ->
+            return if (cursor.moveToFirst()) cursor.getInt(0) else 0
+        }
+    }
+
     fun page(pageIndex: Int, pageSize: Int): List<SmsRecord> {
         val offset = pageIndex.coerceAtLeast(0) * pageSize
         return readableDatabase.query(

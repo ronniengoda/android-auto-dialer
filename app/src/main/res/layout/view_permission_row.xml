@@ -2,24 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_list_row"
+    android:background="@drawable/bg_grouped_press"
     android:gravity="center_vertical"
-    android:minHeight="76dp"
+    android:minHeight="64dp"
     android:orientation="horizontal"
     android:paddingStart="16dp"
-    android:paddingTop="12dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="12dp">
+    android:paddingTop="11dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="11dp">
 
     <FrameLayout
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:background="@drawable/bg_icon_well">
+        android:id="@+id/permIconWell"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:background="@drawable/bg_glyph_green">
 
         <ImageView
             android:id="@+id/permIcon"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_gravity="center"
             android:contentDescription="@null" />
     </FrameLayout>
@@ -33,19 +34,16 @@
 
         <TextView
             android:id="@+id/permTitle"
+            style="@style/Text.Headline"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/ink"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/permSubtitle"
+            style="@style/Text.Footnote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/ink_muted"
-            android:textSize="13sp" />
+            android:layout_marginTop="2dp" />
     </LinearLayout>
 
     <TextView
@@ -53,10 +51,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:paddingStart="10dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="4dp"
-        android:textSize="11sp"
-        android:textStyle="bold" />
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/permChevron"
+        android:layout_width="8dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_chevron" />
 </LinearLayout>

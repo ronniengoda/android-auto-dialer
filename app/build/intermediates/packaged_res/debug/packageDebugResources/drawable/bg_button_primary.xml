@@ -2,17 +2,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/mint_pressed" />
-            <corners android:radius="18dp" />
+            <solid android:color="@color/ios_blue_pressed" />
+            <corners android:radius="14dp" />
         </shape>
     </item>
     <item>
         <shape>
-            <gradient
-                android:angle="135"
-                android:endColor="@color/mint_deep"
-                android:startColor="@color/mint" />
-            <corners android:radius="18dp" />
+            <solid android:color="@color/ios_blue" />
+            <corners android:radius="14dp" />
         </shape>
     </item>
 </selector>

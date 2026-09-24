@@ -4,17 +4,7 @@
             "outputFile": "ke.payhero.autodial.app-mergeDebugResources-2:/values-large-v4/values-large-v4.xml",
             "map": [
                 {
-                    "source": "/private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/81748dd9604a6ac969926e4ac76daf6a/gradle/caches/9.3.0/transforms/e4d4225159fecea988683581613ca146/transformed/appcompat-1.7.0/res/values-large-v4/values-large-v4.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,114,185,256,326,396,464,532,636",
-                        "endColumns": "58,70,70,69,69,67,67,103,115",
-                        "endOffsets": "109,180,251,321,391,459,527,631,747"
-                    }
-                },
-                {
-                    "source": "/private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/81748dd9604a6ac969926e4ac76daf6a/gradle/caches/9.3.0/transforms/13dc213101e16ab49954d7e523e2eeff/transformed/material-1.12.0/res/values-large-v4/values-large-v4.xml",
+                    "source": "/private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/5801c5e779963822aff08e93eb8feb19/gradle/caches/9.3.0/transforms/9f27600542d25ae64f6576f1150daebf/transformed/material-1.12.0/res/values-large-v4/values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -28,6 +18,16 @@
                         "startOffsets": "752,866,982,1104",
                         "endColumns": "113,115,121,133",
                         "endOffsets": "861,977,1099,1233"
+                    }
+                },
+                {
+                    "source": "/private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/5801c5e779963822aff08e93eb8feb19/gradle/caches/9.3.0/transforms/ef9a1cce75de41ea594768ed6350ee4a/transformed/appcompat-1.7.0/res/values-large-v4/values-large-v4.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,114,185,256,326,396,464,532,636",
+                        "endColumns": "58,70,70,69,69,67,67,103,115",
+                        "endOffsets": "109,180,251,321,391,459,527,631,747"
                     }
                 }
             ]

@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "ke.payhero.autodial.app-mergeDebugResources-2:/values-v27/values-v27.xml",
+            "map": [
+                {
+                    "source": "/Users/user/Desktop/kotlin/AutoDial/app/src/main/res/values-v27/styles.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "18",
+                        "endColumns": "12",
+                        "endOffsets": "1134"
+                    }
+                }
+            ]
+        }
+    ]
+}
