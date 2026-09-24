@@ -11,6 +11,7 @@
     <color name="line">#FFC8F3E2</color>
     <color name="ready">#FF12C4A0</color>
     <color name="pending">#FFE0A23A</color>
+    <color name="failed">#FFC85A5A</color>
     <color name="exit">#FF0E3D36</color>
     <color name="exit_pressed">#FF0A2C27</color>
     <color name="code_text">#FF0F6E5C</color>

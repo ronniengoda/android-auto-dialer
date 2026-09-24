@@ -47,6 +47,9 @@ class DialServerService : Service() {
             DialApiState.running = false
             DialApiState.lastMessage = "Could not bind port ${DialApiState.PORT}"
         }
+
+        NetworkWatcher.start(this)
+        SmsForwarder.retryPendingIfOnline(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

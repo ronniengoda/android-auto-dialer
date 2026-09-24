@@ -14,13 +14,17 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.telecom.TelecomManager
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_NOTIFICATIONS = 102
         private const val REQUEST_CALL_PHONE_ONBOARDING = 103
         private const val REQUEST_NOTIFICATIONS_ONBOARDING = 104
+        private const val REQUEST_SMS = 106
+        private const val REQUEST_SMS_ONBOARDING = 107
         private const val PREFS = "autodial_prefs"
         private const val KEY_ONBOARDING_DONE = "onboarding_done"
         private const val EXAMPLE_PAYLOAD = "{\n  \"dial\": \"*344#\"\n}"
@@ -42,6 +48,9 @@ class MainActivity : AppCompatActivity() {
     private var waitingForBattery = false
     private var askedDialer = false
     private var askedBattery = false
+    private var askedSms = false
+    private var pendingEnableSms = false
+    private var selectedSim = SmsForwardConfig.SIM_ALL
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val refreshUi = object : Runnable {
         override fun run() {
@@ -49,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 refreshHome()
                 refreshApiCard()
                 refreshPermissionList()
+                refreshSmsHistory()
             }
             refreshHandler.postDelayed(this, 1500)
         }
@@ -116,7 +126,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.apiPayload).text = EXAMPLE_PAYLOAD
         findViewById<View>(R.id.tabHome).setOnClickListener { showTab(0) }
         findViewById<View>(R.id.tabApi).setOnClickListener { showTab(1) }
-        findViewById<View>(R.id.tabPermissions).setOnClickListener { showTab(2) }
+        findViewById<View>(R.id.tabSms).setOnClickListener { showTab(2) }
+        findViewById<View>(R.id.tabPermissions).setOnClickListener { showTab(3) }
         findViewById<View>(R.id.headerExit).setOnClickListener { exitToPreviousApp() }
         findViewById<AppCompatButton>(R.id.exitButton).setOnClickListener { exitToPreviousApp() }
         findViewById<AppCompatButton>(R.id.testButton).setOnClickListener {
@@ -125,12 +136,14 @@ class MainActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.grantRemainingButton).setOnClickListener {
             startOnboarding(force = true)
         }
+        bindSmsTab()
 
         bindHomeRows()
         showTab(0)
         refreshHome()
         refreshApiCard()
         refreshPermissionList()
+        refreshSmsHistory()
 
         if (!isOnboardingDone()) {
             refreshHandler.post { startOnboarding(force = false) }
@@ -162,21 +175,25 @@ class MainActivity : AppCompatActivity() {
         val panels = listOf(
             findViewById<View>(R.id.panelHome),
             findViewById<View>(R.id.panelApi),
+            findViewById<View>(R.id.panelSms),
             findViewById<View>(R.id.panelPermissions)
         )
         val icons = listOf(
             findViewById<ImageView>(R.id.tabHomeIcon),
             findViewById<ImageView>(R.id.tabApiIcon),
+            findViewById<ImageView>(R.id.tabSmsIcon),
             findViewById<ImageView>(R.id.tabPermissionsIcon)
         )
         val labels = listOf(
             findViewById<TextView>(R.id.tabHomeLabel),
             findViewById<TextView>(R.id.tabApiLabel),
+            findViewById<TextView>(R.id.tabSmsLabel),
             findViewById<TextView>(R.id.tabPermissionsLabel)
         )
         val lines = listOf(
             findViewById<View>(R.id.tabHomeLine),
             findViewById<View>(R.id.tabApiLine),
+            findViewById<View>(R.id.tabSmsLine),
             findViewById<View>(R.id.tabPermissionsLine)
         )
         val active = ContextCompat.getColor(this, R.color.mint_deep)
@@ -202,10 +219,11 @@ class MainActivity : AppCompatActivity() {
         onboardingActive = true
         askedDialer = false
         askedBattery = false
-        showTab(2)
+        askedSms = false
+        showTab(3)
         AlertDialog.Builder(this)
             .setTitle("Allow required access")
-            .setMessage("AutoDial will now ask for each permission in order: phone calls, notifications, default phone app, then start on reboot.")
+            .setMessage("AutoDial will now ask for each permission in order: phone calls, notifications, SMS, default phone app, then start on reboot.")
             .setPositiveButton("Continue") { _, _ -> continueOnboarding() }
             .setCancelable(false)
             .show()
@@ -223,6 +241,10 @@ class MainActivity : AppCompatActivity() {
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                 REQUEST_NOTIFICATIONS_ONBOARDING
             )
+            !hasSmsReceive() && !askedSms -> {
+                askedSms = true
+                requestSmsPermissions(REQUEST_SMS_ONBOARDING)
+            }
             !isDefaultDialer() && !askedDialer -> {
                 askedDialer = true
                 requestDialerRole()
@@ -270,6 +292,13 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                 }
+            ),
+            PermissionItem(
+                title = "SMS access",
+                subtitle = "Read incoming messages and identify SIM 1 or SIM 2",
+                icon = R.drawable.ic_perm_sms,
+                enabled = { hasSmsReceive() },
+                request = { requestSmsPermissions(REQUEST_SMS) }
             ),
             PermissionItem(
                 title = "Default phone app",
@@ -462,6 +491,198 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindSmsTab() {
+        val config = SmsForwardConfig(this)
+        selectedSim = config.simFilter
+        findViewById<SwitchCompat>(R.id.smsEnabledSwitch).isChecked = config.enabled
+        findViewById<SwitchCompat>(R.id.smsAutoRetrySwitch).isChecked = config.autoRetryOnline
+        findViewById<EditText>(R.id.smsSenders).setText(config.senderIdsRaw)
+        findViewById<EditText>(R.id.smsWebhookUrl).setText(config.webhookUrl)
+        renderHeaderRows(config.headers())
+        updateSimChips()
+        updateSmsListenerHint()
+
+        findViewById<SwitchCompat>(R.id.smsEnabledSwitch).setOnCheckedChangeListener { _, checked ->
+            if (checked && !hasSmsReceive()) {
+                pendingEnableSms = true
+                findViewById<SwitchCompat>(R.id.smsEnabledSwitch).isChecked = false
+                requestSmsPermissions(REQUEST_SMS)
+                return@setOnCheckedChangeListener
+            }
+            SmsForwardConfig(this).enabled = checked
+            updateSmsListenerHint()
+        }
+        findViewById<SwitchCompat>(R.id.smsAutoRetrySwitch).setOnCheckedChangeListener { _, checked ->
+            SmsForwardConfig(this).autoRetryOnline = checked
+            if (checked) SmsForwarder.retryPendingIfOnline(this)
+        }
+        findViewById<View>(R.id.smsSimAll).setOnClickListener {
+            selectedSim = SmsForwardConfig.SIM_ALL
+            updateSimChips()
+        }
+        findViewById<View>(R.id.smsSim1).setOnClickListener {
+            selectedSim = SmsForwardConfig.SIM_1
+            updateSimChips()
+        }
+        findViewById<View>(R.id.smsSim2).setOnClickListener {
+            selectedSim = SmsForwardConfig.SIM_2
+            updateSimChips()
+        }
+        findViewById<View>(R.id.smsAddHeader).setOnClickListener {
+            addHeaderRow("", "")
+        }
+        findViewById<AppCompatButton>(R.id.smsSaveButton).setOnClickListener {
+            saveSmsConfig()
+        }
+        findViewById<View>(R.id.smsRetryFailed).setOnClickListener {
+            SmsForwarder.retryFailed(this)
+            refreshHandler.postDelayed({ refreshSmsHistory() }, 400)
+        }
+    }
+
+    private fun renderHeaderRows(headers: Map<String, String>) {
+        val list = findViewById<LinearLayout>(R.id.smsHeaderList)
+        list.removeAllViews()
+        if (headers.isEmpty()) {
+            addHeaderRow("", "")
+        } else {
+            headers.forEach { (key, value) -> addHeaderRow(key, value) }
+        }
+    }
+
+    private fun addHeaderRow(key: String, value: String) {
+        val list = findViewById<LinearLayout>(R.id.smsHeaderList)
+        val row = layoutInflater.inflate(R.layout.view_header_row, list, false)
+        row.findViewById<EditText>(R.id.headerKey).setText(key)
+        row.findViewById<EditText>(R.id.headerValue).setText(value)
+        row.findViewById<View>(R.id.headerRemove).setOnClickListener {
+            list.removeView(row)
+            if (list.childCount == 0) addHeaderRow("", "")
+        }
+        list.addView(row)
+    }
+
+    private fun collectHeadersJson(): String {
+        val list = findViewById<LinearLayout>(R.id.smsHeaderList)
+        val obj = JSONObject()
+        for (i in 0 until list.childCount) {
+            val row = list.getChildAt(i)
+            val key = row.findViewById<EditText>(R.id.headerKey).text.toString().trim()
+            val value = row.findViewById<EditText>(R.id.headerValue).text.toString().trim()
+            if (key.isNotEmpty() && value.isNotEmpty()) {
+                obj.put(key, value)
+            }
+        }
+        return obj.toString()
+    }
+
+    private fun saveSmsConfig() {
+        val config = SmsForwardConfig(this)
+        config.senderIdsRaw = findViewById<EditText>(R.id.smsSenders).text.toString()
+        config.simFilter = selectedSim
+        config.webhookUrl = findViewById<EditText>(R.id.smsWebhookUrl).text.toString()
+        config.headersJson = collectHeadersJson()
+        config.enabled = findViewById<SwitchCompat>(R.id.smsEnabledSwitch).isChecked
+        config.autoRetryOnline = findViewById<SwitchCompat>(R.id.smsAutoRetrySwitch).isChecked
+        updateSmsListenerHint()
+        Toast.makeText(this, "SMS forwarder saved", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun updateSimChips() {
+        val chips = mapOf(
+            SmsForwardConfig.SIM_ALL to findViewById<TextView>(R.id.smsSimAll),
+            SmsForwardConfig.SIM_1 to findViewById<TextView>(R.id.smsSim1),
+            SmsForwardConfig.SIM_2 to findViewById<TextView>(R.id.smsSim2)
+        )
+        chips.forEach { (value, view) ->
+            val selected = value == selectedSim
+            view.isSelected = selected
+            view.setTextColor(
+                ContextCompat.getColor(this, if (selected) R.color.white else R.color.ink)
+            )
+        }
+    }
+
+    private fun updateSmsListenerHint() {
+        val enabled = findViewById<SwitchCompat>(R.id.smsEnabledSwitch).isChecked
+        findViewById<TextView>(R.id.smsListenerHint).text = if (enabled) {
+            "Listening for matching incoming SMS"
+        } else {
+            "Disabled"
+        }
+    }
+
+    private fun refreshSmsHistory() {
+        if (!uiReady) return
+        val records = SmsHistoryStore.get(this).recent()
+        val list = findViewById<LinearLayout>(R.id.smsHistoryList)
+        val empty = findViewById<TextView>(R.id.smsHistoryEmpty)
+        list.removeAllViews()
+        empty.visibility = if (records.isEmpty()) View.VISIBLE else View.GONE
+
+        records.forEachIndexed { index, record ->
+            if (index > 0) {
+                val divider = View(this)
+                divider.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    1
+                )
+                divider.setBackgroundColor(ContextCompat.getColor(this, R.color.line))
+                list.addView(divider)
+            }
+            val row = layoutInflater.inflate(R.layout.view_sms_history_row, list, false)
+            row.findViewById<TextView>(R.id.smsFrom).text = record.sender
+            row.findViewById<TextView>(R.id.smsBody).text = record.text
+            row.findViewById<TextView>(R.id.smsMeta).text =
+                "${record.sim} · ${record.attempts} attempt${if (record.attempts == 1) "" else "s"}" +
+                    (record.error?.let { " · $it" } ?: "")
+
+            val chip = row.findViewById<TextView>(R.id.smsStatus)
+            when (record.status) {
+                SmsHistoryStore.STATUS_SUCCESS -> {
+                    chip.text = "Sent"
+                    chip.setBackgroundResource(R.drawable.bg_chip_on)
+                    chip.setTextColor(ContextCompat.getColor(this, R.color.mint_deep))
+                }
+                SmsHistoryStore.STATUS_PENDING -> {
+                    chip.text = "Pending"
+                    chip.setBackgroundResource(R.drawable.bg_chip_off)
+                    chip.setTextColor(ContextCompat.getColor(this, R.color.pending))
+                }
+                else -> {
+                    chip.text = "Failed"
+                    chip.setBackgroundResource(R.drawable.bg_chip_fail)
+                    chip.setTextColor(ContextCompat.getColor(this, R.color.failed))
+                }
+            }
+
+            val retry = row.findViewById<TextView>(R.id.smsRetry)
+            val canRetry = record.status != SmsHistoryStore.STATUS_SUCCESS
+            retry.visibility = if (canRetry) View.VISIBLE else View.GONE
+            retry.setOnClickListener {
+                SmsForwarder.retry(this, record.id)
+                refreshHandler.postDelayed({ refreshSmsHistory() }, 400)
+            }
+            list.addView(row)
+        }
+    }
+
+    private fun requestSmsPermissions(code: Int) {
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.READ_SMS,
+                Manifest.permission.READ_PHONE_STATE
+            ),
+            code
+        )
+    }
+
+    private fun hasSmsReceive(): Boolean {
+        return checkSelfPermission(Manifest.permission.RECEIVE_SMS) ==
+            PackageManager.PERMISSION_GRANTED
+    }
+
     private fun hasCallPhone(): Boolean {
         return checkSelfPermission(Manifest.permission.CALL_PHONE) ==
             PackageManager.PERMISSION_GRANTED
@@ -509,8 +730,19 @@ class MainActivity : AppCompatActivity() {
             maybePlacePendingCall()
         }
 
+        if (requestCode == REQUEST_SMS &&
+            grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED &&
+            pendingEnableSms
+        ) {
+            pendingEnableSms = false
+            SmsForwardConfig(this).enabled = true
+            findViewById<SwitchCompat>(R.id.smsEnabledSwitch).isChecked = true
+            updateSmsListenerHint()
+        }
+
         if (requestCode == REQUEST_CALL_PHONE_ONBOARDING ||
-            requestCode == REQUEST_NOTIFICATIONS_ONBOARDING
+            requestCode == REQUEST_NOTIFICATIONS_ONBOARDING ||
+            requestCode == REQUEST_SMS_ONBOARDING
         ) {
             continueOnboarding()
         }
