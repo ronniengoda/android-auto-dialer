@@ -14,7 +14,8 @@ data class SmsRecord(
     val sim: String,
     val status: String,
     val error: String?,
-    val attempts: Int
+    val attempts: Int,
+    val forwardedStamp: Long
 )
 
 class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
@@ -35,15 +36,22 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
                 sim TEXT NOT NULL,
                 status TEXT NOT NULL,
                 error TEXT,
-                attempts INTEGER NOT NULL DEFAULT 0
+                attempts INTEGER NOT NULL DEFAULT 0,
+                forwarded_stamp INTEGER NOT NULL DEFAULT 0
             )
             """.trimIndent()
         )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS sms_history")
-        onCreate(db)
+        if (oldVersion < 2) {
+            db.execSQL(
+                "ALTER TABLE sms_history ADD COLUMN forwarded_stamp INTEGER NOT NULL DEFAULT 0"
+            )
+            db.execSQL(
+                "UPDATE sms_history SET forwarded_stamp = received_stamp WHERE forwarded_stamp = 0 AND status != 'pending'"
+            )
+        }
     }
 
     fun insertPending(
@@ -72,13 +80,33 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
             put("status", status)
             put("error", error)
             put("attempts", currentAttempts(id) + 1)
+            put("forwarded_stamp", System.currentTimeMillis())
         }
         writableDatabase.update("sms_history", values, "id=?", arrayOf(id.toString()))
     }
 
+    fun count(): Int {
+        readableDatabase.rawQuery("SELECT COUNT(*) FROM sms_history", null).use { cursor ->
+            return if (cursor.moveToFirst()) cursor.getInt(0) else 0
+        }
+    }
+
+    fun page(pageIndex: Int, pageSize: Int): List<SmsRecord> {
+        val offset = pageIndex.coerceAtLeast(0) * pageSize
+        return readableDatabase.query(
+            "sms_history",
+            null,
+            null,
+            null,
+            null,
+            null,
+            "id DESC",
+            "$pageSize OFFSET $offset"
+        ).use { readAll(it) }
+    }
+
     fun recent(limit: Int = 80): List<SmsRecord> {
-        val records = mutableListOf<SmsRecord>()
-        readableDatabase.query(
+        return readableDatabase.query(
             "sms_history",
             null,
             null,
@@ -87,38 +115,11 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
             null,
             "id DESC",
             limit.toString()
-        ).use { cursor ->
-            val id = cursor.getColumnIndexOrThrow("id")
-            val sender = cursor.getColumnIndexOrThrow("sender")
-            val body = cursor.getColumnIndexOrThrow("body")
-            val sent = cursor.getColumnIndexOrThrow("sent_stamp")
-            val received = cursor.getColumnIndexOrThrow("received_stamp")
-            val sim = cursor.getColumnIndexOrThrow("sim")
-            val status = cursor.getColumnIndexOrThrow("status")
-            val error = cursor.getColumnIndexOrThrow("error")
-            val attempts = cursor.getColumnIndexOrThrow("attempts")
-            while (cursor.moveToNext()) {
-                records.add(
-                    SmsRecord(
-                        id = cursor.getLong(id),
-                        sender = cursor.getString(sender),
-                        text = cursor.getString(body),
-                        sentStamp = cursor.getLong(sent),
-                        receivedStamp = cursor.getLong(received),
-                        sim = cursor.getString(sim),
-                        status = cursor.getString(status),
-                        error = cursor.getString(error),
-                        attempts = cursor.getInt(attempts)
-                    )
-                )
-            }
-        }
-        return records
+        ).use { readAll(it) }
     }
 
     fun retryable(): List<SmsRecord> {
-        val records = mutableListOf<SmsRecord>()
-        readableDatabase.query(
+        return readableDatabase.query(
             "sms_history",
             null,
             "status IN (?,?)",
@@ -126,33 +127,7 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
             null,
             null,
             "id ASC"
-        ).use { cursor ->
-            val id = cursor.getColumnIndexOrThrow("id")
-            val sender = cursor.getColumnIndexOrThrow("sender")
-            val body = cursor.getColumnIndexOrThrow("body")
-            val sent = cursor.getColumnIndexOrThrow("sent_stamp")
-            val received = cursor.getColumnIndexOrThrow("received_stamp")
-            val sim = cursor.getColumnIndexOrThrow("sim")
-            val status = cursor.getColumnIndexOrThrow("status")
-            val error = cursor.getColumnIndexOrThrow("error")
-            val attempts = cursor.getColumnIndexOrThrow("attempts")
-            while (cursor.moveToNext()) {
-                records.add(
-                    SmsRecord(
-                        id = cursor.getLong(id),
-                        sender = cursor.getString(sender),
-                        text = cursor.getString(body),
-                        sentStamp = cursor.getLong(sent),
-                        receivedStamp = cursor.getLong(received),
-                        sim = cursor.getString(sim),
-                        status = cursor.getString(status),
-                        error = cursor.getString(error),
-                        attempts = cursor.getInt(attempts)
-                    )
-                )
-            }
-        }
-        return records
+        ).use { readAll(it) }
     }
 
     fun get(id: Long): SmsRecord? {
@@ -165,19 +140,39 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
             null,
             null
         ).use { cursor ->
-            if (!cursor.moveToFirst()) return null
-            return SmsRecord(
-                id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
-                sender = cursor.getString(cursor.getColumnIndexOrThrow("sender")),
-                text = cursor.getString(cursor.getColumnIndexOrThrow("body")),
-                sentStamp = cursor.getLong(cursor.getColumnIndexOrThrow("sent_stamp")),
-                receivedStamp = cursor.getLong(cursor.getColumnIndexOrThrow("received_stamp")),
-                sim = cursor.getString(cursor.getColumnIndexOrThrow("sim")),
-                status = cursor.getString(cursor.getColumnIndexOrThrow("status")),
-                error = cursor.getString(cursor.getColumnIndexOrThrow("error")),
-                attempts = cursor.getInt(cursor.getColumnIndexOrThrow("attempts"))
+            return readAll(cursor).firstOrNull()
+        }
+    }
+
+    private fun readAll(cursor: android.database.Cursor): List<SmsRecord> {
+        val records = mutableListOf<SmsRecord>()
+        val id = cursor.getColumnIndexOrThrow("id")
+        val sender = cursor.getColumnIndexOrThrow("sender")
+        val body = cursor.getColumnIndexOrThrow("body")
+        val sent = cursor.getColumnIndexOrThrow("sent_stamp")
+        val received = cursor.getColumnIndexOrThrow("received_stamp")
+        val sim = cursor.getColumnIndexOrThrow("sim")
+        val status = cursor.getColumnIndexOrThrow("status")
+        val error = cursor.getColumnIndexOrThrow("error")
+        val attempts = cursor.getColumnIndexOrThrow("attempts")
+        val forwarded = cursor.getColumnIndexOrThrow("forwarded_stamp")
+        while (cursor.moveToNext()) {
+            records.add(
+                SmsRecord(
+                    id = cursor.getLong(id),
+                    sender = cursor.getString(sender),
+                    text = cursor.getString(body),
+                    sentStamp = cursor.getLong(sent),
+                    receivedStamp = cursor.getLong(received),
+                    sim = cursor.getString(sim),
+                    status = cursor.getString(status),
+                    error = cursor.getString(error),
+                    attempts = cursor.getInt(attempts),
+                    forwardedStamp = cursor.getLong(forwarded)
+                )
             )
         }
+        return records
     }
 
     private fun currentAttempts(id: Long): Int {
@@ -205,7 +200,7 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
         const val STATUS_SUCCESS = "success"
         const val STATUS_FAILED = "failed"
         private const val DB_NAME = "sms_forward.db"
-        private const val DB_VERSION = 1
+        private const val DB_VERSION = 2
 
         @Volatile
         private var instance: SmsHistoryStore? = null

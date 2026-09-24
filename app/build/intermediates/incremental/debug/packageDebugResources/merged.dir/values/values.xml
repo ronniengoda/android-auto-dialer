@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="code_text">#FF0F6E5C</color>
+    <color name="exit">#FF0E3D36</color>
+    <color name="exit_pressed">#FF0A2C27</color>
+    <color name="failed">#FFC85A5A</color>
+    <color name="ink">#FF12352E</color>
+    <color name="ink_muted">#FF5E857A</color>
+    <color name="line">#FFC8F3E2</color>
+    <color name="mint">#FF2EE6B0</color>
+    <color name="mint_deep">#FF12C4A0</color>
+    <color name="mint_pressed">#FF0FA888</color>
+    <color name="mint_soft">#FFE9FFF6</color>
+    <color name="mint_wash">#FFF4FFFB</color>
+    <color name="pending">#FFE0A23A</color>
+    <color name="pill_attempt_bg">#FFFFF0D6</color>
+    <color name="pill_attempt_text">#FF8C5A12</color>
+    <color name="pill_sim_bg">#FFE3EEFF</color>
+    <color name="pill_sim_text">#FF2457A8</color>
+    <color name="ready">#FF12C4A0</color>
+    <color name="white">#FFFFFFFF</color>
+    <style name="Theme.AutoDial" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/mint_deep</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="colorPrimary">@color/mint</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+    </style>
+</resources>

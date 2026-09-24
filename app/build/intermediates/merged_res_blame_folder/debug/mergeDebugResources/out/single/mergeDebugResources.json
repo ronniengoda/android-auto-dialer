@@ -1,0 +1,202 @@
+[
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_pill_sim.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_pill_sim.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_icon_well.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_icon_well.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_button_ghost.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_button_ghost.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable-xxhdpi_ic_app_mark.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable-xxhdpi/ic_app_mark.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_status_dot.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_status_dot.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_sim_chip.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_sim_chip.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_tab_bar.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_tab_bar.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/layout_view_permission_row.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/layout/view_permission_row.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_chip_fail.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_chip_fail.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/layout_view_sms_history_row.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/layout/view_sms_history_row.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/layout_view_status_row.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/layout/view_status_row.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_header.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_header.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_pill_attempt.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_pill_attempt.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_tab_underline.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_tab_underline.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_button_exit.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_button_exit.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_perm_sms.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_perm_sms.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_button_primary.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_button_primary.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_input.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_input.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_perm_reboot.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_perm_reboot.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_stat_dial.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_stat_dial.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_tile.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_tile.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_tab_sms.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_tab_sms.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_screen.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_screen.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_list_row.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_list_row.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/layout_activity_main.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/layout/activity_main.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_card.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_card.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_perm_phone.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_perm_phone.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_tab_api.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_tab_api.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_perm_dialer.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_perm_dialer.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_tab_idle.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_tab_idle.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "ke.payhero.autodial.app-main-6:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_close.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_chip_off.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_chip_off.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_perm_bell.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_perm_bell.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_tab_permissions.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_tab_permissions.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/layout_view_header_row.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/layout/view_header_row.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_ic_tab_home.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/ic_tab_home.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_chip_on.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_chip_on.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_code.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_code.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/drawable_bg_tab_selected.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/drawable/bg_tab_selected.xml"
+    },
+    {
+        "merged": "ke.payhero.autodial.app-debug-4:/layout_panel_sms.xml.flat",
+        "source": "ke.payhero.autodial.app-main-6:/layout/panel_sms.xml"
+    }
+]

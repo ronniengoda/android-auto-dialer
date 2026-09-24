@@ -11,8 +11,18 @@ android {
         applicationId = "ke.payhero.autodial"
         minSdk = 23
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        // Each build is a newer version, so a sideloaded APK can replace the
+        // installed app instead of being rejected as "App not installed".
+        versionCode = (System.currentTimeMillis() / 1000L).toInt()
+        versionName = "1.1"
+    }
+
+    buildTypes {
+        release {
+            // Same certificate as debug, so a release APK can update an
+            // install that was previously sideloaded from a debug build.
+            signingConfig = signingConfigs.getByName("debug")
+        }
     }
 
     compileOptions {

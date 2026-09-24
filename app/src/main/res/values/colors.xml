@@ -15,4 +15,8 @@
     <color name="exit">#FF0E3D36</color>
     <color name="exit_pressed">#FF0A2C27</color>
     <color name="code_text">#FF0F6E5C</color>
+    <color name="pill_sim_bg">#FFE3EEFF</color>
+    <color name="pill_sim_text">#FF2457A8</color>
+    <color name="pill_attempt_bg">#FFFFF0D6</color>
+    <color name="pill_attempt_text">#FF8C5A12</color>
 </resources>

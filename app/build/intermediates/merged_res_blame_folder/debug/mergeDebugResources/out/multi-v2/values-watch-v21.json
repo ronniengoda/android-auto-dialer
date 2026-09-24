@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "ke.payhero.autodial.app-mergeDebugResources-2:/values-watch-v21/values-watch-v21.xml",
+            "map": [
+                {
+                    "source": "/private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/81748dd9604a6ac969926e4ac76daf6a/gradle/caches/9.3.0/transforms/e4d4225159fecea988683581613ca146/transformed/appcompat-1.7.0/res/values-watch-v21/values-watch-v21.xml",
+                    "from": {
+                        "startLines": "2,6,10",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,271,499",
+                        "endLines": "5,9,13",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "266,494,724"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -53,7 +53,7 @@ class SmsForwardConfig(context: Context) {
         if (filters.isEmpty()) return false
         if (filters.any { it == "*" }) return true
         val incoming = from.trim()
-        return filters.any { incoming.equals(it, true) || incoming.contains(it, true) }
+        return filters.any { incoming == it || incoming.contains(it) }
     }
 
     fun matchesSim(sim: String): Boolean {

@@ -20,6 +20,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SwitchCompat
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         private const val PREFS = "autodial_prefs"
         private const val KEY_ONBOARDING_DONE = "onboarding_done"
         private const val EXAMPLE_PAYLOAD = "{\n  \"dial\": \"*344#\"\n}"
+        private const val SMS_PAGE_SIZE = 5
     }
 
     private var pendingNumber: String? = null
@@ -51,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private var askedSms = false
     private var pendingEnableSms = false
     private var selectedSim = SmsForwardConfig.SIM_ALL
+    private var smsHistoryPage = 0
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val refreshUi = object : Runnable {
         override fun run() {
@@ -538,6 +543,16 @@ class MainActivity : AppCompatActivity() {
             SmsForwarder.retryFailed(this)
             refreshHandler.postDelayed({ refreshSmsHistory() }, 400)
         }
+        findViewById<View>(R.id.smsHistoryPrev).setOnClickListener {
+            if (smsHistoryPage > 0) {
+                smsHistoryPage -= 1
+                refreshSmsHistory()
+            }
+        }
+        findViewById<View>(R.id.smsHistoryNext).setOnClickListener {
+            smsHistoryPage += 1
+            refreshSmsHistory()
+        }
     }
 
     private fun renderHeaderRows(headers: Map<String, String>) {
@@ -614,11 +629,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshSmsHistory() {
         if (!uiReady) return
-        val records = SmsHistoryStore.get(this).recent()
+        val store = SmsHistoryStore.get(this)
+        val total = store.count()
+        val pages = if (total == 0) 1 else (total + SMS_PAGE_SIZE - 1) / SMS_PAGE_SIZE
+        if (smsHistoryPage > pages - 1) smsHistoryPage = pages - 1
+        if (smsHistoryPage < 0) smsHistoryPage = 0
+        val records = store.page(smsHistoryPage, SMS_PAGE_SIZE)
         val list = findViewById<LinearLayout>(R.id.smsHistoryList)
         val empty = findViewById<TextView>(R.id.smsHistoryEmpty)
         list.removeAllViews()
         empty.visibility = if (records.isEmpty()) View.VISIBLE else View.GONE
+
+        val pager = findViewById<View>(R.id.smsHistoryPager)
+        pager.visibility = if (total == 0) View.GONE else View.VISIBLE
+        findViewById<TextView>(R.id.smsHistoryPage).text = "${smsHistoryPage + 1} / $pages"
+        val prev = findViewById<TextView>(R.id.smsHistoryPrev)
+        val next = findViewById<TextView>(R.id.smsHistoryNext)
+        val hasPrev = smsHistoryPage > 0
+        val hasNext = smsHistoryPage < pages - 1
+        prev.isEnabled = hasPrev
+        next.isEnabled = hasNext
+        prev.alpha = if (hasPrev) 1f else 0.35f
+        next.alpha = if (hasNext) 1f else 0.35f
 
         records.forEachIndexed { index, record ->
             if (index > 0) {
@@ -633,9 +665,19 @@ class MainActivity : AppCompatActivity() {
             val row = layoutInflater.inflate(R.layout.view_sms_history_row, list, false)
             row.findViewById<TextView>(R.id.smsFrom).text = record.sender
             row.findViewById<TextView>(R.id.smsBody).text = record.text
-            row.findViewById<TextView>(R.id.smsMeta).text =
-                "${record.sim} · ${record.attempts} attempt${if (record.attempts == 1) "" else "s"}" +
-                    (record.error?.let { " · $it" } ?: "")
+            row.findViewById<TextView>(R.id.smsWhen).text = forwardedLabel(record)
+            row.findViewById<TextView>(R.id.smsSim).text = simLabel(record.sim)
+            val attempts = record.attempts
+            row.findViewById<TextView>(R.id.smsAttempts).text =
+                if (attempts == 1) "1 attempt" else "$attempts attempts"
+            val errorView = row.findViewById<TextView>(R.id.smsError)
+            val error = record.error
+            if (error.isNullOrBlank()) {
+                errorView.visibility = View.GONE
+            } else {
+                errorView.visibility = View.VISIBLE
+                errorView.text = error
+            }
 
             val chip = row.findViewById<TextView>(R.id.smsStatus)
             when (record.status) {
@@ -664,6 +706,30 @@ class MainActivity : AppCompatActivity() {
                 refreshHandler.postDelayed({ refreshSmsHistory() }, 400)
             }
             list.addView(row)
+        }
+    }
+
+    private fun forwardedLabel(record: SmsRecord): String {
+        val stamp = if (record.forwardedStamp > 0L) record.forwardedStamp else record.receivedStamp
+        val prefix = when {
+            record.status == SmsHistoryStore.STATUS_SUCCESS && record.forwardedStamp > 0L -> "Forwarded"
+            record.forwardedStamp > 0L -> "Tried"
+            else -> "Received"
+        }
+        return "$prefix ${formatStamp(stamp)}"
+    }
+
+    private fun formatStamp(stamp: Long): String {
+        val format = SimpleDateFormat("d MMM yyyy, h:mm a", Locale.getDefault())
+        return format.format(Date(stamp))
+    }
+
+    private fun simLabel(sim: String): String {
+        return when (sim.lowercase(Locale.ROOT)) {
+            "sim1" -> "SIM 1"
+            "sim2" -> "SIM 2"
+            "unknown" -> "Unknown SIM"
+            else -> sim.uppercase(Locale.ROOT)
         }
     }
 
