@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "ke.payhero.autodial.app-mergeDebugResources-2:/values-small-v4/values-small-v4.xml",
+            "outputFile": "ke.payhero.autodial.app-mergeDebugResources-57:/values-small-v4/values-small-v4.xml",
             "map": [
                 {
-                    "source": "/private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/5801c5e779963822aff08e93eb8feb19/gradle/caches/9.3.0/transforms/9f27600542d25ae64f6576f1150daebf/transformed/material-1.12.0/res/values-small-v4/values-small-v4.xml",
+                    "source": "/Users/user/.gradle/caches/9.3.0/transforms/7192134a3a696ffe7f34cd3b457cd2a9/transformed/material-1.12.0/res/values-small-v4/values-small-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

@@ -2,6 +2,7 @@ package ke.payhero.autodial
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -15,7 +16,10 @@ data class SmsRecord(
     val status: String,
     val error: String?,
     val attempts: Int,
-    val forwardedStamp: Long
+    val forwardedStamp: Long,
+    val ruleId: String? = null,
+    val ruleName: String? = null,
+    val webhookUrl: String? = null
 )
 
 class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
@@ -37,7 +41,10 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
                 status TEXT NOT NULL,
                 error TEXT,
                 attempts INTEGER NOT NULL DEFAULT 0,
-                forwarded_stamp INTEGER NOT NULL DEFAULT 0
+                forwarded_stamp INTEGER NOT NULL DEFAULT 0,
+                rule_id TEXT,
+                rule_name TEXT,
+                webhook_url TEXT
             )
             """.trimIndent()
         )
@@ -52,6 +59,11 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
                 "UPDATE sms_history SET forwarded_stamp = received_stamp WHERE forwarded_stamp = 0 AND status != 'pending'"
             )
         }
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE sms_history ADD COLUMN rule_id TEXT")
+            db.execSQL("ALTER TABLE sms_history ADD COLUMN rule_name TEXT")
+            db.execSQL("ALTER TABLE sms_history ADD COLUMN webhook_url TEXT")
+        }
     }
 
     fun insertPending(
@@ -59,7 +71,10 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
         text: String,
         sentStamp: Long,
         receivedStamp: Long,
-        sim: String
+        sim: String,
+        ruleId: String? = null,
+        ruleName: String? = null,
+        webhookUrl: String? = null
     ): Long {
         val values = ContentValues().apply {
             put("sender", sender)
@@ -69,6 +84,9 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
             put("sim", sim)
             put("status", STATUS_PENDING)
             put("attempts", 0)
+            put("rule_id", ruleId)
+            put("rule_name", ruleName)
+            put("webhook_url", webhookUrl)
         }
         val id = writableDatabase.insert("sms_history", null, values)
         trim()
@@ -139,6 +157,10 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
         ).use { readAll(it) }
     }
 
+    fun clearAll() {
+        writableDatabase.delete("sms_history", null, null)
+    }
+
     fun get(id: Long): SmsRecord? {
         readableDatabase.query(
             "sms_history",
@@ -153,7 +175,7 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
         }
     }
 
-    private fun readAll(cursor: android.database.Cursor): List<SmsRecord> {
+    private fun readAll(cursor: Cursor): List<SmsRecord> {
         val records = mutableListOf<SmsRecord>()
         val id = cursor.getColumnIndexOrThrow("id")
         val sender = cursor.getColumnIndexOrThrow("sender")
@@ -165,6 +187,10 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
         val error = cursor.getColumnIndexOrThrow("error")
         val attempts = cursor.getColumnIndexOrThrow("attempts")
         val forwarded = cursor.getColumnIndexOrThrow("forwarded_stamp")
+        val ruleIdIdx = cursor.getColumnIndex("rule_id")
+        val ruleNameIdx = cursor.getColumnIndex("rule_name")
+        val webhookUrlIdx = cursor.getColumnIndex("webhook_url")
+
         while (cursor.moveToNext()) {
             records.add(
                 SmsRecord(
@@ -177,7 +203,10 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
                     status = cursor.getString(status),
                     error = cursor.getString(error),
                     attempts = cursor.getInt(attempts),
-                    forwardedStamp = cursor.getLong(forwarded)
+                    forwardedStamp = cursor.getLong(forwarded),
+                    ruleId = if (ruleIdIdx >= 0 && !cursor.isNull(ruleIdIdx)) cursor.getString(ruleIdIdx) else null,
+                    ruleName = if (ruleNameIdx >= 0 && !cursor.isNull(ruleNameIdx)) cursor.getString(ruleNameIdx) else null,
+                    webhookUrl = if (webhookUrlIdx >= 0 && !cursor.isNull(webhookUrlIdx)) cursor.getString(webhookUrlIdx) else null
                 )
             )
         }
@@ -209,7 +238,7 @@ class SmsHistoryStore(context: Context) : SQLiteOpenHelper(
         const val STATUS_SUCCESS = "success"
         const val STATUS_FAILED = "failed"
         private const val DB_NAME = "sms_forward.db"
-        private const val DB_VERSION = 2
+        private const val DB_VERSION = 3
 
         @Volatile
         private var instance: SmsHistoryStore? = null

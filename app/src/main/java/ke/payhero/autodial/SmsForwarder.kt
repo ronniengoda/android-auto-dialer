@@ -16,24 +16,32 @@ object SmsForwarder {
         if (!config.enabled) return
 
         val parsed = parseMessages(intent) ?: return
-        if (!config.matchesSender(parsed.from)) return
-
         val sim = resolveSim(app, intent)
-        if (!config.matchesSim(sim)) return
+
+        val matchingRules = config.getRules().filter { rule ->
+            rule.matches(parsed.from, parsed.text, sim)
+        }
+
+        if (matchingRules.isEmpty()) return
 
         val store = SmsHistoryStore.get(app)
-        val id = store.insertPending(
-            sender = parsed.from,
-            text = parsed.text,
-            sentStamp = parsed.sentStamp,
-            receivedStamp = System.currentTimeMillis(),
-            sim = sim
-        )
-        forward(app, id)
+        for (rule in matchingRules) {
+            val id = store.insertPending(
+                sender = parsed.from,
+                text = parsed.text,
+                sentStamp = parsed.sentStamp,
+                receivedStamp = System.currentTimeMillis(),
+                sim = sim,
+                ruleId = rule.id,
+                ruleName = rule.name,
+                webhookUrl = rule.webhookUrl
+            )
+            forward(app, id, rule)
+        }
     }
 
     fun retry(context: Context, id: Long) {
-        io.execute { forward(context.applicationContext, id) }
+        io.execute { forward(context.applicationContext, id, null) }
     }
 
     fun retryPendingIfOnline(context: Context) {
@@ -45,7 +53,7 @@ object SmsForwarder {
         val app = context.applicationContext
         io.execute {
             SmsHistoryStore.get(app).retryable().forEach { record ->
-                forward(app, record.id)
+                forward(app, record.id, null)
             }
         }
     }
@@ -54,11 +62,16 @@ object SmsForwarder {
         io.execute { onSmsReceived(context, intent) }
     }
 
-    private fun forward(context: Context, id: Long) {
+    private fun forward(context: Context, id: Long, ruleOverride: SmsFilterRule?) {
         val store = SmsHistoryStore.get(context)
         val record = store.get(id) ?: return
         val config = SmsForwardConfig(context)
-        val result = SmsForwardClient.post(record, config)
+
+        val rule = ruleOverride ?: (record.ruleId?.let { config.getRule(it) })
+        val url = rule?.webhookUrl ?: record.webhookUrl ?: ""
+        val headers = rule?.headers() ?: emptyMap()
+
+        val result = SmsForwardClient.post(record, url, headers)
         store.mark(
             id,
             if (result.success) SmsHistoryStore.STATUS_SUCCESS else SmsHistoryStore.STATUS_FAILED,

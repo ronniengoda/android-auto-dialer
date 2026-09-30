@@ -8,8 +8,7 @@ import java.nio.charset.StandardCharsets
 
 object SmsForwardClient {
 
-    fun post(record: SmsRecord, config: SmsForwardConfig): Result {
-        val url = config.webhookUrl
+    fun post(record: SmsRecord, url: String, headers: Map<String, String>): Result {
         if (url.isBlank()) {
             return Result(false, "Webhook URL is empty")
         }
@@ -20,6 +19,10 @@ object SmsForwardClient {
             .put("sentStamp", record.sentStamp)
             .put("receivedStamp", record.receivedStamp)
             .put("sim", record.sim)
+            .apply {
+                if (!record.ruleId.isNullOrBlank()) put("ruleId", record.ruleId)
+                if (!record.ruleName.isNullOrBlank()) put("ruleName", record.ruleName)
+            }
             .toString()
             .toByteArray(StandardCharsets.UTF_8)
 
@@ -31,7 +34,7 @@ object SmsForwardClient {
                 doOutput = true
                 setRequestProperty("Content-Type", "application/json; charset=utf-8")
                 setRequestProperty("Accept", "application/json")
-                config.headers().forEach { (key, value) ->
+                headers.forEach { (key, value) ->
                     setRequestProperty(key, value)
                 }
             }
@@ -48,6 +51,25 @@ object SmsForwardClient {
         } catch (error: Exception) {
             Result(false, error.message ?: "Forward failed")
         }
+    }
+
+    fun testRule(rule: SmsFilterRule): Result {
+        val dummyRecord = SmsRecord(
+            id = -1,
+            sender = "TEST_SENDER",
+            text = "Test SMS Payload from AutoDial rule '${rule.name}'",
+            sentStamp = System.currentTimeMillis(),
+            receivedStamp = System.currentTimeMillis(),
+            sim = "sim1",
+            status = SmsHistoryStore.STATUS_PENDING,
+            error = null,
+            attempts = 0,
+            forwardedStamp = System.currentTimeMillis(),
+            ruleId = rule.id,
+            ruleName = rule.name,
+            webhookUrl = rule.webhookUrl
+        )
+        return post(dummyRecord, rule.webhookUrl, rule.headers())
     }
 
     data class Result(val success: Boolean, val error: String?)
