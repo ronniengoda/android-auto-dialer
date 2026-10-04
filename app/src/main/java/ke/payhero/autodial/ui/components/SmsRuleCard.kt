@@ -31,6 +31,8 @@ import ke.payhero.autodial.SmsFilterRule
 @Composable
 fun SmsRuleCard(
     rule: SmsFilterRule,
+    deliveryCount: Int,
+    onOpen: () -> Unit,
     onToggleEnabled: (Boolean) -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
@@ -38,6 +40,7 @@ fun SmsRuleCard(
     modifier: Modifier = Modifier
 ) {
     Card(
+        onClick = onOpen,
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -68,6 +71,14 @@ fun SmsRuleCard(
                         color = if (rule.enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+
+                Icon(
+                    imageVector = FeatherIcons.ChevronRight,
+                    contentDescription = "Open delivery history",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
 
                 Switch(
                     checked = rule.enabled,
@@ -107,6 +118,14 @@ fun SmsRuleCard(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = if (deliveryCount == 1) "1 delivery" else "$deliveryCount deliveries",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary
             )
 
             Spacer(modifier = Modifier.height(12.dp))

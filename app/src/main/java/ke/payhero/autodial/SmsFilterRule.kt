@@ -34,7 +34,7 @@ data class SmsFilterRule(
         if (filters.isEmpty()) return true
         if (filters.any { it == "*" }) return true
         val incoming = from.trim()
-        return filters.any { incoming.equals(it, ignoreCase = true) || incoming.contains(it, ignoreCase = true) }
+        return filters.any { filter -> incoming == filter || incoming.contains(filter) }
     }
 
     fun matchesSim(sim: String): Boolean {

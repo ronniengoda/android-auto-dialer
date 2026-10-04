@@ -102,8 +102,11 @@ fun FilterRuleDialog(
                 OutlinedTextField(
                     value = senderFilter,
                     onValueChange = { senderFilter = it },
-                    label = { Text("Allowed Senders (Comma separated or * for all)") },
-                    placeholder = { Text("MPESA, 254712345678, *") },
+                    label = { Text("Sender ID") },
+                    placeholder = { Text("airtelmoney, MPESA") },
+                    supportingText = {
+                        Text("Case-sensitive. airtelmoney does not match AirtelMoney. Separate senders with commas, or use * for every sender.")
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
 

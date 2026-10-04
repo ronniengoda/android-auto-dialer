@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         var rules by remember { mutableStateOf(config.getRules()) }
 
         val store = remember { SmsHistoryStore.get(this) }
-        var historyRecords by remember { mutableStateOf(store.recent(100)) }
+        var historyRecords by remember { mutableStateOf(store.recent(200)) }
 
         var hasCallPhonePermission by remember { mutableStateOf(hasCallPhone()) }
         var hasNotificationsPermission by remember { mutableStateOf(hasNotifications()) }
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
             smsEnabled = config.enabled
             autoRetry = config.autoRetryOnline
             rules = config.getRules()
-            historyRecords = store.recent(100)
+            historyRecords = store.recent(200)
             hasCallPhonePermission = hasCallPhone()
             hasNotificationsPermission = hasNotifications()
             hasSmsPermission = hasSmsReceive()
@@ -260,8 +260,8 @@ class MainActivity : AppCompatActivity() {
                             SmsForwarder.retry(this@MainActivity, recordId)
                             Handler(Looper.getMainLooper()).postDelayed({ refreshState() }, 500)
                         },
-                        onRetryAllFailed = {
-                            SmsForwarder.retryFailed(this@MainActivity)
+                        onRetryFailed = { ruleId ->
+                            SmsForwarder.retryFailed(this@MainActivity, ruleId)
                             Handler(Looper.getMainLooper()).postDelayed({ refreshState() }, 500)
                         },
                         modifier = modifier

@@ -49,12 +49,14 @@ object SmsForwarder {
         retryFailed(context)
     }
 
-    fun retryFailed(context: Context) {
+    fun retryFailed(context: Context, ruleId: String? = null) {
         val app = context.applicationContext
         io.execute {
-            SmsHistoryStore.get(app).retryable().forEach { record ->
-                forward(app, record.id, null)
-            }
+            SmsHistoryStore.get(app).retryable()
+                .filter { ruleId == null || it.ruleId == ruleId }
+                .forEach { record ->
+                    forward(app, record.id, null)
+                }
         }
     }
 

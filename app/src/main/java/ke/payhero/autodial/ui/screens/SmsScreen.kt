@@ -13,15 +13,22 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.TabRow
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +38,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ke.payhero.autodial.SmsFilterRule
 import ke.payhero.autodial.SmsHistoryStore
@@ -39,6 +49,8 @@ import ke.payhero.autodial.ui.components.FeatherIcons
 import ke.payhero.autodial.ui.components.FilterRuleDialog
 import ke.payhero.autodial.ui.components.SmsHistoryCard
 import ke.payhero.autodial.ui.components.SmsRuleCard
+
+private const val PAGE_SIZE = 10
 
 @Composable
 fun SmsScreen(
@@ -52,21 +64,14 @@ fun SmsScreen(
     onDeleteRule: (String) -> Unit,
     onTestRule: (SmsFilterRule) -> Unit,
     onRetryRecord: (Long) -> Unit,
-    onRetryAllFailed: () -> Unit,
+    onRetryFailed: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var showRuleDialog by remember { mutableStateOf(false) }
     var editingRule by remember { mutableStateOf<SmsFilterRule?>(null) }
-    var selectedTabFilter by remember { mutableIntStateOf(0) } // 0: All, 1: Sent, 2: Pending, 3: Failed
+    var openRuleId by remember { mutableStateOf<String?>(null) }
 
-    val filteredRecords = remember(historyRecords, selectedTabFilter) {
-        when (selectedTabFilter) {
-            1 -> historyRecords.filter { it.status == SmsHistoryStore.STATUS_SUCCESS }
-            2 -> historyRecords.filter { it.status == SmsHistoryStore.STATUS_PENDING }
-            3 -> historyRecords.filter { it.status == SmsHistoryStore.STATUS_FAILED }
-            else -> historyRecords
-        }
-    }
+    val openRule = rules.firstOrNull { it.id == openRuleId }
 
     if (showRuleDialog) {
         FilterRuleDialog(
@@ -81,6 +86,70 @@ fun SmsScreen(
                 editingRule = null
             }
         )
+    }
+
+    if (openRule != null) {
+        RuleDeliveryHistory(
+            rule = openRule,
+            historyRecords = historyRecords,
+            onBack = { openRuleId = null },
+            onRetryRecord = onRetryRecord,
+            onRetryFailed = { onRetryFailed(openRule.id) },
+            modifier = modifier
+        )
+        return
+    }
+
+    ListenerRulesList(
+        smsEnabled = smsEnabled,
+        autoRetry = autoRetry,
+        rules = rules,
+        historyRecords = historyRecords,
+        onToggleSmsEnabled = onToggleSmsEnabled,
+        onToggleAutoRetry = onToggleAutoRetry,
+        onAddRule = {
+            editingRule = null
+            showRuleDialog = true
+        },
+        onOpenRule = { openRuleId = it.id },
+        onToggleRule = { rule, enabled -> onSaveRule(rule.copy(enabled = enabled)) },
+        onEditRule = { rule ->
+            editingRule = rule
+            showRuleDialog = true
+        },
+        onDeleteRule = onDeleteRule,
+        onTestRule = onTestRule,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun ListenerRulesList(
+    smsEnabled: Boolean,
+    autoRetry: Boolean,
+    rules: List<SmsFilterRule>,
+    historyRecords: List<SmsRecord>,
+    onToggleSmsEnabled: (Boolean) -> Unit,
+    onToggleAutoRetry: (Boolean) -> Unit,
+    onAddRule: () -> Unit,
+    onOpenRule: (SmsFilterRule) -> Unit,
+    onToggleRule: (SmsFilterRule, Boolean) -> Unit,
+    onEditRule: (SmsFilterRule) -> Unit,
+    onDeleteRule: (String) -> Unit,
+    onTestRule: (SmsFilterRule) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var query by remember { mutableStateOf("") }
+    var page by remember { mutableIntStateOf(0) }
+
+    val filteredRules = remember(rules, query) {
+        rules.filter { it.matchesRuleQuery(query) }
+    }
+    val pageCount = pageCount(filteredRules.size)
+    val safePage = page.coerceIn(0, pageCount - 1)
+    val visibleRules = filteredRules.drop(safePage * PAGE_SIZE).take(PAGE_SIZE)
+    val deliveryCounts = remember(historyRecords) {
+        historyRecords.groupingBy { it.ruleId }.eachCount()
     }
 
     LazyColumn(
@@ -98,7 +167,6 @@ fun SmsScreen(
             )
         }
 
-        // Global Toggles Card
         item {
             Card(
                 shape = RoundedCornerShape(16.dp),
@@ -162,7 +230,6 @@ fun SmsScreen(
             }
         }
 
-        // Section: Listener Filters Header
         item {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -170,17 +237,13 @@ fun SmsScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Listener Rules (${rules.size})",
+                    text = ruleListTitle(query, filteredRules.size, rules.size),
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.weight(1f)
                 )
 
-                Button(
-                    onClick = {
-                        editingRule = null
-                        showRuleDialog = true
-                    }
-                ) {
+                Button(onClick = onAddRule) {
                     Icon(FeatherIcons.Plus, contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text("Add Rule")
@@ -188,67 +251,144 @@ fun SmsScreen(
             }
         }
 
-        // Listener Rules List
+        item {
+            SearchField(
+                value = query,
+                onValueChange = {
+                    query = it
+                    page = 0
+                },
+                placeholder = "Search rules by name, sender, or webhook"
+            )
+        }
+
         if (rules.isEmpty()) {
             item {
-                Card(
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier.padding(20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "No Listener Rules Configured",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Tap 'Add Rule' above to setup custom webhook filters for M-PESA, bank SMS, or SIM slots.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
+                EmptyCard(
+                    title = "No Listener Rules Configured",
+                    body = "Tap 'Add Rule' above to setup custom webhook filters for M-PESA, bank SMS, or SIM slots."
+                )
+            }
+        } else if (filteredRules.isEmpty()) {
+            item {
+                EmptyCard(
+                    title = "No matching rules",
+                    body = "Try a different name, sender ID, or webhook."
+                )
             }
         } else {
-            items(rules, key = { it.id }) { rule ->
+            items(visibleRules, key = { it.id }) { rule ->
                 SmsRuleCard(
                     rule = rule,
-                    onToggleEnabled = { enabled ->
-                        onSaveRule(rule.copy(enabled = enabled))
-                    },
-                    onEdit = {
-                        editingRule = rule
-                        showRuleDialog = true
-                    },
+                    deliveryCount = deliveryCounts[rule.id] ?: 0,
+                    onOpen = { onOpenRule(rule) },
+                    onToggleEnabled = { enabled -> onToggleRule(rule, enabled) },
+                    onEdit = { onEditRule(rule) },
                     onDelete = { onDeleteRule(rule.id) },
                     onTestRule = { onTestRule(rule) }
                 )
             }
+
+            item {
+                PageControls(
+                    page = safePage,
+                    pageCount = pageCount,
+                    onPrevious = { page = safePage - 1 },
+                    onNext = { page = safePage + 1 }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RuleDeliveryHistory(
+    rule: SmsFilterRule,
+    historyRecords: List<SmsRecord>,
+    onBack: () -> Unit,
+    onRetryRecord: (Long) -> Unit,
+    onRetryFailed: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var query by remember(rule.id) { mutableStateOf("") }
+    var page by remember(rule.id) { mutableIntStateOf(0) }
+    var selectedTab by remember(rule.id) { mutableIntStateOf(0) }
+
+    val ruleRecords = remember(historyRecords, rule.id) {
+        historyRecords.filter { it.ruleId == rule.id }
+    }
+    val statusFiltered = remember(ruleRecords, selectedTab) {
+        when (selectedTab) {
+            1 -> ruleRecords.filter { it.status == SmsHistoryStore.STATUS_SUCCESS }
+            2 -> ruleRecords.filter { it.status == SmsHistoryStore.STATUS_PENDING }
+            3 -> ruleRecords.filter { it.status == SmsHistoryStore.STATUS_FAILED }
+            else -> ruleRecords
+        }
+    }
+    val filteredRecords = remember(statusFiltered, query) {
+        statusFiltered.filter { it.matchesHistoryQuery(query) }
+    }
+    val pageCount = pageCount(filteredRecords.size)
+    val safePage = page.coerceIn(0, pageCount - 1)
+    val visibleRecords = filteredRecords.drop(safePage * PAGE_SIZE).take(PAGE_SIZE)
+    val canRetry = ruleRecords.any {
+        it.status == SmsHistoryStore.STATUS_FAILED || it.status == SmsHistoryStore.STATUS_PENDING
+    }
+
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back to listener rules"
+                    )
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = rule.name,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = ruleSummary(rule),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
         }
 
-        // Section: Delivery Logs Header
         item {
-            Spacer(modifier = Modifier.height(12.dp))
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Delivery History (${historyRecords.size})",
+                    text = historyListTitle(query, filteredRecords.size, ruleRecords.size),
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.weight(1f)
                 )
 
-                OutlinedButton(onClick = onRetryAllFailed) {
+                OutlinedButton(
+                    onClick = onRetryFailed,
+                    enabled = canRetry
+                ) {
                     Icon(FeatherIcons.Refresh, contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text("Retry Failed")
@@ -256,37 +396,190 @@ fun SmsScreen(
             }
         }
 
-        // Logs Filter Tabs
+        item {
+            SearchField(
+                value = query,
+                onValueChange = {
+                    query = it
+                    page = 0
+                },
+                placeholder = "Search sender or message"
+            )
+        }
+
         item {
             val tabTitles = listOf("All", "Sent", "Pending", "Failed")
-            TabRow(selectedTabIndex = selectedTabFilter) {
+            TabRow(selectedTabIndex = selectedTab) {
                 tabTitles.forEachIndexed { index, title ->
                     Tab(
-                        selected = selectedTabFilter == index,
-                        onClick = { selectedTabFilter = index },
+                        selected = selectedTab == index,
+                        onClick = {
+                            selectedTab = index
+                            page = 0
+                        },
                         text = { Text(title) }
                     )
                 }
             }
         }
 
-        // Delivery Logs List
         if (filteredRecords.isEmpty()) {
             item {
                 Text(
-                    text = "No message history matching filter.",
+                    text = if (ruleRecords.isEmpty()) {
+                        "No messages have been forwarded for this rule yet."
+                    } else {
+                        "No message history matching this search."
+                    },
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(vertical = 12.dp)
                 )
             }
         } else {
-            items(filteredRecords, key = { it.id }) { record ->
+            items(visibleRecords, key = { it.id }) { record ->
                 SmsHistoryCard(
                     record = record,
                     onRetry = { onRetryRecord(record.id) }
                 )
             }
+
+            item {
+                PageControls(
+                    page = safePage,
+                    pageCount = pageCount,
+                    onPrevious = { page = safePage - 1 },
+                    onNext = { page = safePage + 1 }
+                )
+            }
         }
     }
+}
+
+@Composable
+private fun SearchField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    modifier: Modifier = Modifier
+) {
+    val focusManager = LocalFocusManager.current
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.fillMaxWidth(),
+        singleLine = true,
+        placeholder = { Text(placeholder) },
+        leadingIcon = {
+            Icon(Icons.Filled.Search, contentDescription = null)
+        },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() }),
+        shape = RoundedCornerShape(12.dp)
+    )
+}
+
+@Composable
+private fun PageControls(
+    page: Int,
+    pageCount: Int,
+    onPrevious: () -> Unit,
+    onNext: () -> Unit
+) {
+    if (pageCount <= 1) return
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        OutlinedButton(onClick = onPrevious, enabled = page > 0) {
+            Text("Previous")
+        }
+        Text(
+            text = "${page + 1} / $pageCount",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+        OutlinedButton(onClick = onNext, enabled = page < pageCount - 1) {
+            Text("Next")
+        }
+    }
+}
+
+@Composable
+private fun EmptyCard(title: String, body: String) {
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = body,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+private fun pageCount(total: Int): Int {
+    if (total <= 0) return 1
+    return (total + PAGE_SIZE - 1) / PAGE_SIZE
+}
+
+private fun ruleListTitle(query: String, filtered: Int, total: Int): String {
+    return if (query.isBlank()) {
+        "Listener Rules ($total)"
+    } else {
+        "Listener Rules ($filtered of $total)"
+    }
+}
+
+private fun historyListTitle(query: String, filtered: Int, total: Int): String {
+    return if (query.isBlank()) {
+        "Delivery History ($total)"
+    } else {
+        "Delivery History ($filtered of $total)"
+    }
+}
+
+private fun ruleSummary(rule: SmsFilterRule): String {
+    val senders = if (rule.senderFilter.isBlank()) "All senders" else rule.senderFilter
+    val sim = when (rule.simFilter) {
+        "sim1" -> "SIM 1"
+        "sim2" -> "SIM 2"
+        else -> "All SIMs"
+    }
+    return "$senders · $sim"
+}
+
+private fun SmsFilterRule.matchesRuleQuery(query: String): Boolean {
+    val needle = query.trim()
+    if (needle.isEmpty()) return true
+    return name.contains(needle, ignoreCase = true) ||
+        senderFilter.contains(needle, ignoreCase = true) ||
+        keywordFilter.contains(needle, ignoreCase = true) ||
+        webhookUrl.contains(needle, ignoreCase = true)
+}
+
+private fun SmsRecord.matchesHistoryQuery(query: String): Boolean {
+    val needle = query.trim()
+    if (needle.isEmpty()) return true
+    return sender.contains(needle, ignoreCase = true) ||
+        text.contains(needle, ignoreCase = true) ||
+        status.contains(needle, ignoreCase = true) ||
+        sim.contains(needle, ignoreCase = true) ||
+        (error?.contains(needle, ignoreCase = true) == true)
 }
