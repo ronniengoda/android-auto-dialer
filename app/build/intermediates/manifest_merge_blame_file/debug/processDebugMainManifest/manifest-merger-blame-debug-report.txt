@@ -1,7 +1,7 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="ke.payhero.autodial"
-4    android:versionCode="1791096254"
+4    android:versionCode="1791096711"
 5    android:versionName="1.1" >
 6
 7    <uses-sdk
@@ -43,15 +43,15 @@
 21-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:14:22-72
 22
 23    <permission
-23-->[androidx.core:core:1.15.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:22:5-24:47
+23-->[androidx.core:core:1.15.0] /Users/user/.gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:22:5-24:47
 24        android:name="ke.payhero.autodial.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-24-->[androidx.core:core:1.15.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:23:9-81
+24-->[androidx.core:core:1.15.0] /Users/user/.gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:23:9-81
 25        android:protectionLevel="signature" />
-25-->[androidx.core:core:1.15.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:24:9-44
+25-->[androidx.core:core:1.15.0] /Users/user/.gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:24:9-44
 26
 27    <uses-permission android:name="ke.payhero.autodial.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-27-->[androidx.core:core:1.15.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:26:5-97
-27-->[androidx.core:core:1.15.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
+27-->[androidx.core:core:1.15.0] /Users/user/.gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:26:5-97
+27-->[androidx.core:core:1.15.0] /Users/user/.gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
 28
 29    <application
 29-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:16:5-100:19
@@ -60,7 +60,7 @@
 31        android:allowBackup="false"
 31-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:22:9-36
 32        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-32-->[androidx.core:core:1.15.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
+32-->[androidx.core:core:1.15.0] /Users/user/.gradle/caches/9.3.0/transforms/734249c948f110538dd0a99418ca7d88/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
 33        android:debuggable="true"
 34        android:extractNativeLibs="false"
 35        android:icon="@mipmap/ic_launcher"
@@ -71,221 +71,222 @@
 37-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:21:9-54
 38        android:supportsRtl="true"
 38-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:23:9-35
-39        android:theme="@style/Theme.AutoDial"
-39-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:18:9-46
-40        android:usesCleartextTraffic="true" >
-40-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:24:9-44
-41        <activity
-41-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:26:9-49:20
-42            android:name="ke.payhero.autodial.MainActivity"
-42-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:27:13-41
-43            android:exported="true"
-43-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:28:13-36
-44            android:launchMode="singleTop" >
-44-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:29:13-43
-45            <intent-filter>
-45-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:31:13-34:29
-46                <action android:name="android.intent.action.MAIN" />
-46-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:32:17-69
-46-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:32:25-66
-47
-48                <category android:name="android.intent.category.LAUNCHER" />
-48-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:33:17-77
-48-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:33:27-74
-49            </intent-filter>
-50
-51            <!-- Required to qualify as a default dialer and receive tel: links -->
-52            <intent-filter>
-52-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:37:13-41:29
-53                <action android:name="android.intent.action.DIAL" />
-53-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:38:17-69
-53-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:38:25-66
-54
-55                <category android:name="android.intent.category.DEFAULT" />
-55-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:39:17-76
-55-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:39:27-73
-56
-57                <data android:scheme="tel" />
-57-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:40:17-46
-57-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:40:23-43
-58            </intent-filter>
-59            <intent-filter>
-59-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:43:13-48:29
-60                <action android:name="android.intent.action.VIEW" />
-60-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:44:17-69
-60-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:44:25-66
-61
-62                <category android:name="android.intent.category.DEFAULT" />
-62-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:39:17-76
-62-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:39:27-73
-63                <category android:name="android.intent.category.BROWSABLE" />
-63-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:46:17-78
-63-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:46:27-75
-64
-65                <data android:scheme="tel" />
-65-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:40:17-46
-65-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:40:23-43
-66            </intent-filter>
-67        </activity>
-68
-69        <receiver
-69-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:51:9-58:20
-70            android:name="ke.payhero.autodial.SmsReceiver"
-70-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:52:13-40
-71            android:exported="true"
-71-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:53:13-36
-72            android:permission="android.permission.BROADCAST_SMS" >
-72-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:54:13-66
-73            <intent-filter android:priority="999" >
-73-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:55:13-57:29
-73-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:55:28-50
-74                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-74-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:56:17-82
-74-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:56:25-79
-75            </intent-filter>
-76        </receiver>
-77        <receiver
-77-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:60:9-74:20
-78            android:name="ke.payhero.autodial.BootReceiver"
-78-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:61:13-41
-79            android:directBootAware="true"
-79-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:62:13-43
-80            android:enabled="true"
-80-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:63:13-35
-81            android:exported="true" >
-81-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:64:13-36
-82            <intent-filter>
-82-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:65:13-70:29
-83                <action android:name="android.intent.action.BOOT_COMPLETED" />
-83-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:66:17-79
-83-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:66:25-76
-84                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
-84-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:67:17-86
-84-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:67:25-83
-85                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-85-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:68:17-82
-85-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:68:25-79
-86                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-86-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:69:17-82
-86-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:69:25-79
-87            </intent-filter>
-88            <intent-filter>
-88-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:71:13-73:29
-89                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-89-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:72:17-84
-89-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:72:25-81
-90            </intent-filter>
-91        </receiver>
-92
-93        <service
-93-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:76:9-85:19
-94            android:name="ke.payhero.autodial.DialServerService"
-94-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:77:13-46
-95            android:directBootAware="true"
-95-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:78:13-43
-96            android:exported="false"
-96-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:79:13-37
-97            android:foregroundServiceType="specialUse"
-97-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:80:13-55
-98            android:stopWithTask="false" >
-98-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:81:13-41
-99            <property
-99-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:82:13-84:124
-100                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-100-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:83:17-76
-101                android:value="Local HTTP API that receives dial requests from companion apps on this device or network" />
-101-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:84:17-121
-102        </service>
-103
-104        <!-- Minimal InCallService required for ROLE_DIALER on modern Android. -->
-105        <service
-105-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:88:9-98:19
-106            android:name="ke.payhero.autodial.AutoDialInCallService"
-106-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:89:13-50
-107            android:exported="true"
-107-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:91:13-36
-108            android:permission="android.permission.BIND_INCALL_SERVICE" >
-108-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:90:13-72
-109            <meta-data
-109-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:92:13-94:40
-110                android:name="android.telecom.IN_CALL_SERVICE_UI"
-110-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:93:17-66
-111                android:value="true" />
-111-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:94:17-37
-112
-113            <intent-filter>
-113-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:95:13-97:29
-114                <action android:name="android.telecom.InCallService" />
-114-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:96:17-72
-114-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:96:25-69
-115            </intent-filter>
-116        </service>
-117
-118        <provider
-118-->[androidx.lifecycle:lifecycle-process:2.8.7] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:24:9-32:20
-119            android:name="androidx.startup.InitializationProvider"
-119-->[androidx.lifecycle:lifecycle-process:2.8.7] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:25:13-67
-120            android:authorities="ke.payhero.autodial.androidx-startup"
-120-->[androidx.lifecycle:lifecycle-process:2.8.7] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:26:13-68
-121            android:exported="false" >
-121-->[androidx.lifecycle:lifecycle-process:2.8.7] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:27:13-37
-122            <meta-data
-122-->[androidx.lifecycle:lifecycle-process:2.8.7] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:29:13-31:52
-123                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-123-->[androidx.lifecycle:lifecycle-process:2.8.7] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:30:17-78
-124                android:value="androidx.startup" />
-124-->[androidx.lifecycle:lifecycle-process:2.8.7] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:31:17-49
-125            <meta-data
-125-->[androidx.emoji2:emoji2:1.3.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/c7a0eea4d7ab2d5c9c3557efbca76cb1/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
-126                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-126-->[androidx.emoji2:emoji2:1.3.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/c7a0eea4d7ab2d5c9c3557efbca76cb1/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
-127                android:value="androidx.startup" />
-127-->[androidx.emoji2:emoji2:1.3.0] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/c7a0eea4d7ab2d5c9c3557efbca76cb1/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
-128            <meta-data
-128-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
-129                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-129-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
-130                android:value="androidx.startup" />
-130-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
-131        </provider>
-132
-133        <receiver
-133-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
-134            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-134-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
-135            android:directBootAware="false"
-135-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
-136            android:enabled="true"
-136-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
-137            android:exported="true"
-137-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
-138            android:permission="android.permission.DUMP" >
-138-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
-139            <intent-filter>
-139-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
-140                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-140-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
-140-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
-141            </intent-filter>
-142            <intent-filter>
-142-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
-143                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-143-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
-143-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
-144            </intent-filter>
-145            <intent-filter>
-145-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
-146                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-146-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
-146-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
-147            </intent-filter>
-148            <intent-filter>
-148-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
-149                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-149-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
-149-->[androidx.profileinstaller:profileinstaller:1.3.1] /private/var/folders/9s/gb7fjgrx73xc_xtjk9ts_yzc0000gn/T/cursor-sandbox-cache/9aac8a0124c25eaf1d7800353dc4164b/gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
-150            </intent-filter>
-151        </receiver>
-152    </application>
-153
-154</manifest>
+39        android:testOnly="true"
+40        android:theme="@style/Theme.AutoDial"
+40-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:18:9-46
+41        android:usesCleartextTraffic="true" >
+41-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:24:9-44
+42        <activity
+42-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:26:9-49:20
+43            android:name="ke.payhero.autodial.MainActivity"
+43-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:27:13-41
+44            android:exported="true"
+44-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:28:13-36
+45            android:launchMode="singleTop" >
+45-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:29:13-43
+46            <intent-filter>
+46-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:31:13-34:29
+47                <action android:name="android.intent.action.MAIN" />
+47-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:32:17-69
+47-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:32:25-66
+48
+49                <category android:name="android.intent.category.LAUNCHER" />
+49-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:33:17-77
+49-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:33:27-74
+50            </intent-filter>
+51
+52            <!-- Required to qualify as a default dialer and receive tel: links -->
+53            <intent-filter>
+53-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:37:13-41:29
+54                <action android:name="android.intent.action.DIAL" />
+54-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:38:17-69
+54-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:38:25-66
+55
+56                <category android:name="android.intent.category.DEFAULT" />
+56-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:39:17-76
+56-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:39:27-73
+57
+58                <data android:scheme="tel" />
+58-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:40:17-46
+58-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:40:23-43
+59            </intent-filter>
+60            <intent-filter>
+60-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:43:13-48:29
+61                <action android:name="android.intent.action.VIEW" />
+61-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:44:17-69
+61-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:44:25-66
+62
+63                <category android:name="android.intent.category.DEFAULT" />
+63-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:39:17-76
+63-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:39:27-73
+64                <category android:name="android.intent.category.BROWSABLE" />
+64-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:46:17-78
+64-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:46:27-75
+65
+66                <data android:scheme="tel" />
+66-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:40:17-46
+66-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:40:23-43
+67            </intent-filter>
+68        </activity>
+69
+70        <receiver
+70-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:51:9-58:20
+71            android:name="ke.payhero.autodial.SmsReceiver"
+71-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:52:13-40
+72            android:exported="true"
+72-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:53:13-36
+73            android:permission="android.permission.BROADCAST_SMS" >
+73-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:54:13-66
+74            <intent-filter android:priority="999" >
+74-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:55:13-57:29
+74-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:55:28-50
+75                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+75-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:56:17-82
+75-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:56:25-79
+76            </intent-filter>
+77        </receiver>
+78        <receiver
+78-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:60:9-74:20
+79            android:name="ke.payhero.autodial.BootReceiver"
+79-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:61:13-41
+80            android:directBootAware="true"
+80-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:62:13-43
+81            android:enabled="true"
+81-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:63:13-35
+82            android:exported="true" >
+82-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:64:13-36
+83            <intent-filter>
+83-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:65:13-70:29
+84                <action android:name="android.intent.action.BOOT_COMPLETED" />
+84-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:66:17-79
+84-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:66:25-76
+85                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+85-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:67:17-86
+85-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:67:25-83
+86                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+86-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:68:17-82
+86-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:68:25-79
+87                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+87-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:69:17-82
+87-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:69:25-79
+88            </intent-filter>
+89            <intent-filter>
+89-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:71:13-73:29
+90                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+90-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:72:17-84
+90-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:72:25-81
+91            </intent-filter>
+92        </receiver>
+93
+94        <service
+94-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:76:9-85:19
+95            android:name="ke.payhero.autodial.DialServerService"
+95-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:77:13-46
+96            android:directBootAware="true"
+96-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:78:13-43
+97            android:exported="false"
+97-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:79:13-37
+98            android:foregroundServiceType="specialUse"
+98-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:80:13-55
+99            android:stopWithTask="false" >
+99-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:81:13-41
+100            <property
+100-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:82:13-84:124
+101                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+101-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:83:17-76
+102                android:value="Local HTTP API that receives dial requests from companion apps on this device or network" />
+102-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:84:17-121
+103        </service>
+104
+105        <!-- Minimal InCallService required for ROLE_DIALER on modern Android. -->
+106        <service
+106-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:88:9-98:19
+107            android:name="ke.payhero.autodial.AutoDialInCallService"
+107-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:89:13-50
+108            android:exported="true"
+108-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:91:13-36
+109            android:permission="android.permission.BIND_INCALL_SERVICE" >
+109-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:90:13-72
+110            <meta-data
+110-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:92:13-94:40
+111                android:name="android.telecom.IN_CALL_SERVICE_UI"
+111-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:93:17-66
+112                android:value="true" />
+112-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:94:17-37
+113
+114            <intent-filter>
+114-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:95:13-97:29
+115                <action android:name="android.telecom.InCallService" />
+115-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:96:17-72
+115-->/Users/user/Desktop/kotlin/AutoDial/app/src/main/AndroidManifest.xml:96:25-69
+116            </intent-filter>
+117        </service>
+118
+119        <provider
+119-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/user/.gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:24:9-32:20
+120            android:name="androidx.startup.InitializationProvider"
+120-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/user/.gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:25:13-67
+121            android:authorities="ke.payhero.autodial.androidx-startup"
+121-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/user/.gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:26:13-68
+122            android:exported="false" >
+122-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/user/.gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:27:13-37
+123            <meta-data
+123-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/user/.gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:29:13-31:52
+124                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+124-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/user/.gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:30:17-78
+125                android:value="androidx.startup" />
+125-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/user/.gradle/caches/9.3.0/transforms/2a38cc6b091fdc548a534ab10a6c6ac8/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:31:17-49
+126            <meta-data
+126-->[androidx.emoji2:emoji2:1.3.0] /Users/user/.gradle/caches/9.3.0/transforms/c7a0eea4d7ab2d5c9c3557efbca76cb1/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+127                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+127-->[androidx.emoji2:emoji2:1.3.0] /Users/user/.gradle/caches/9.3.0/transforms/c7a0eea4d7ab2d5c9c3557efbca76cb1/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+128                android:value="androidx.startup" />
+128-->[androidx.emoji2:emoji2:1.3.0] /Users/user/.gradle/caches/9.3.0/transforms/c7a0eea4d7ab2d5c9c3557efbca76cb1/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+129            <meta-data
+129-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+130                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+130-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+131                android:value="androidx.startup" />
+131-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+132        </provider>
+133
+134        <receiver
+134-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+135            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+135-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+136            android:directBootAware="false"
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+137            android:enabled="true"
+137-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+138            android:exported="true"
+138-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+139            android:permission="android.permission.DUMP" >
+139-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+140            <intent-filter>
+140-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+141                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+141-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+141-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+142            </intent-filter>
+143            <intent-filter>
+143-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+144                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+144-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+144-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+145            </intent-filter>
+146            <intent-filter>
+146-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+147                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+147-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+147-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+148            </intent-filter>
+149            <intent-filter>
+149-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+150                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+150-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+150-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/user/.gradle/caches/9.3.0/transforms/890c261b4c496a724fedda1eced37d12/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+151            </intent-filter>
+152        </receiver>
+153    </application>
+154
+155</manifest>
